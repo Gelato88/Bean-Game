@@ -67,7 +67,7 @@ public class TradedHand {
         batch.enableBlending();
         float startX = Settings.RES_WIDTH / 2 - (cards.size() * 100/2);
         for (int i = 0; i < cards.size(); i++) {
-            batch.draw(cards.get(i).getTexture(), startX + 100 * i, 150);
+            batch.draw(cards.get(i).getTexture(), startX + 100 * i, 150, Settings.CARD_WIDTH, Settings.CARD_HEIGHT);
         }
         batch.end();
         stage.draw();

@@ -93,14 +93,14 @@ public class Opponent {
         layout.setText(font, "" + coins);
         font.draw(batch, layout, x + 15, y + Settings.OPPONENT_BOX_HEIGHT-17-layout.height/2);
         if(bean1 != -1) {
-            batch.draw(Assets.beans[bean1], x + 50, y + 30, 36, 63);
+            batch.draw(Assets.beans[bean1], x + 50, y + 30, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
             layout.setText(font, "" + bean1Number);
-            font.draw(batch, layout, x + 68-layout.width/2, y + 25);
+            font.draw(batch, layout, x + 50 + Settings.CARD_WIDTH*0.4f/2 - layout.width/2, y + 25);
         }
         if(bean2 != -1) {
-            batch.draw(Assets.beans[bean2], x + 96, y + 30, 36, 63);
+            batch.draw(Assets.beans[bean2], x + Settings.CARD_WIDTH*0.4f + 60, y + 30, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
             layout.setText(font, "" + bean2Number);
-            font.draw(batch, layout, x + 114-layout.width/2, y + 25);
+            font.draw(batch, layout, x + 60 + Settings.CARD_WIDTH*0.4f*3/2 - layout.width/2, y + 25);
         }
         batch.end();
     }

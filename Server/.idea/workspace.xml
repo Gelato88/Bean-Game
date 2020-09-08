@@ -6,7 +6,41 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0050664b-e777-4eb5-81a0-6f7b78671e9d" name="Default Changelist" comment="" />
+    <list default="true" id="0050664b-e777-4eb5-81a0-6f7b78671e9d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Client/core/assets/black-eyed_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/assets/blue_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/assets/chili_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/assets/cocoa_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/assets/coffee_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/assets/garden_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/assets/green_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/assets/red_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/assets/soy_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/assets/stink_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/assets/wax_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Assets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Hand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/InputThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/InputThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Opponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Opponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Settings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Trade.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/Trade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/TradeOffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/TradeOffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/TradedHand.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/core/src/com/beangame/client/TradedHand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/desktop/out/production/resources/black-eyed_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/desktop/out/production/resources/blue_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/desktop/out/production/resources/chili_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/desktop/out/production/resources/cocoa_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/desktop/out/production/resources/coffee_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/desktop/out/production/resources/garden_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/desktop/out/production/resources/green_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/desktop/out/production/resources/red_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/desktop/out/production/resources/soy_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/desktop/out/production/resources/stink_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/desktop/out/production/resources/wax_bean.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -131,6 +165,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -152,6 +189,7 @@
     <option name="width" value="1382" />
     <option name="height" value="784" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -221,12 +259,12 @@
       <workItem from="1599238235517" duration="102000" />
       <workItem from="1599283663629" duration="11090000" />
       <workItem from="1599423630821" duration="2163000" />
-      <workItem from="1599537364775" duration="4450000" />
+      <workItem from="1599537364775" duration="8564000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69743000" />
+    <option name="totallyTimeSpent" value="73857000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1374" y="-8" width="1382" height="784" extended-state="6" />

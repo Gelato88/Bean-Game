@@ -1,7 +1,6 @@
 package com.beangame.client;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,8 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
-import java.util.ArrayList;
 
 
 /* The player class handles client-side information related to this player's gameplay.
@@ -144,13 +141,13 @@ public class Player {
 
     public void render(SpriteBatch batch) {
         drawMat(batch);
-        hand.render(batch);
         tradedHand.render(batch);
         drawActive(batch);
         stage.draw();
         stage.act();
         spot1.render(batch);
         spot2.render(batch);
+        hand.render(batch);
     }
 
     public void drawMat(SpriteBatch batch) {
@@ -171,7 +168,7 @@ public class Player {
         batch.enableBlending();
         for(int i = 0; i < active.length; i++) {
             if(active[i] != null) {
-                batch.draw(active[i].getTexture(), 40, 240 + 175 * i, 100, 175);
+                batch.draw(active[i].getTexture(), 40, 240 + 175 * i, Settings.CARD_WIDTH * 0.8f, Settings.CARD_HEIGHT * 0.8f);
             }
         }
         batch.end();
@@ -263,6 +260,7 @@ public class Player {
             } else {
                 hideButton(plantFlipped2);
             }
+            active[index] = null;
             client.sendMessage(3006, ""+index);
         }
     }

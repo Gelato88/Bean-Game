@@ -47,17 +47,17 @@ public class Assets {
         opponentMat = load("opponent_mat");
         playerSymbol = load("player_symbol");
         coin = load("coin");
-        blackEyedBean = load("black-eyed_bean");
-        blueBean = load("blue_bean");
-        chiliBean = load("chili_bean");
-        cocoaBean = load("cocoa_bean");
-        coffeeBean = load("coffee_bean");
-        gardenBean = load("garden_bean");
-        greenBean = load("green_bean");
-        redBean = load("red_bean");
-        soyBean = load("soy_bean");
-        stinkBean = load("stink_bean");
-        waxBean = load("wax_bean");
+
+        switch(Settings.TEXTURE_PACK) {
+            case 0:
+                loadOldPack();
+                break;
+            case 1:
+                loadPack1();
+                break;
+            default:
+                Gdx.app.log("Assets", "Invalid texture pack found.");
+        }
 
         beans[0] = blackEyedBean;
         beans[1] = blueBean;
@@ -70,6 +70,34 @@ public class Assets {
         beans[8] = soyBean;
         beans[9] = stinkBean;
         beans[10] = waxBean;
+    }
+
+    public static void loadOldPack() {
+        blackEyedBean = load("old_beans/black-eyed_bean");
+        blueBean = load("old_beans/blue_bean");
+        chiliBean = load("old_beans/chili_bean");
+        cocoaBean = load("old_beans/cocoa_bean");
+        coffeeBean = load("old_beans/coffee_bean");
+        gardenBean = load("old_beans/garden_bean");
+        greenBean = load("old_beans/green_bean");
+        redBean = load("old_beans/red_bean");
+        soyBean = load("old_beans/soy_bean");
+        stinkBean = load("old_beans/stink_bean");
+        waxBean = load("old_beans/wax_bean");
+    }
+
+    public static void loadPack1() {
+        blackEyedBean = load("beans/textures/black-eyed_bean");
+        blueBean = load("beans/textures/blue_bean");
+        chiliBean = load("beans/textures/chili_bean");
+        cocoaBean = load("beans/textures/cocoa_bean");
+        coffeeBean = load("beans/textures/coffee_bean");
+        gardenBean = load("beans/textures/garden_bean");
+        greenBean = load("beans/textures/green_bean");
+        redBean = load("beans/textures/red_bean");
+        soyBean = load("beans/textures/soy_bean");
+        stinkBean = load("beans/textures/stink_bean");
+        waxBean = load("beans/textures/wax_bean");
     }
 
     public static void disposeAll() {

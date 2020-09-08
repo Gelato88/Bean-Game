@@ -73,15 +73,15 @@ public class TradeOffer {
         }
         layout.setText(font, "1");
         if(actives[0] == 1 && game.getPlayer().getActive()[0] != null && actives[1] == 1 && game.getPlayer().getActive()[1] != null) {
-            font.draw(batch, layout, Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 - 30 - layout.width/2, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 300);
-            font.draw(batch, layout, Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 + 30 - layout.width/2, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 300);
+            font.draw(batch, layout, Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 - 30 - layout.width/2, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 284);
+            font.draw(batch, layout, Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 + 30 - layout.width/2, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 284);
             batch.draw(Assets.beans[game.getPlayer().getActive()[0].getCardVal()], Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 - 54, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 380, 48, 84);
             batch.draw(Assets.beans[game.getPlayer().getActive()[1].getCardVal()], Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 + 6, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 380, 48, 84);
         } else if(actives[0] == 1 && game.getPlayer().getActive()[0] != null) {
-            font.draw(batch, layout, Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 - 30 - layout.width/2, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 300);
+            font.draw(batch, layout, Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 - 30 - layout.width/2, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 284);
             batch.draw(Assets.beans[game.getPlayer().getActive()[0].getCardVal()], Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 - 54, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 380, 48, 84);
         } else if(actives[1] == 1 && game.getPlayer().getActive()[1] != null) {
-            font.draw(batch, layout, Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 - 30 - layout.width/2, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 300);
+            font.draw(batch, layout, Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 - 30 - layout.width/2, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 284);
             batch.draw(Assets.beans[game.getPlayer().getActive()[1].getCardVal()], Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 - 54, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 380, 48, 84);
         }
         batch.end();

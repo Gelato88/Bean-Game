@@ -71,7 +71,9 @@ public class InputThread extends Thread {
                             client.flipCard(text.substring(4));
                             break;
                         case 3006:
-                            client.hideFlipped(text.substring(4));
+                            if(!(client.currentTurn == client.playerNumber)) {
+                                client.hideFlipped(text.substring(4));
+                            }
                             break;
                         case 3009:
                             if(client.currentTurn == client.playerNumber) {

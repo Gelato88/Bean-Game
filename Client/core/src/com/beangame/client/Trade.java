@@ -57,41 +57,14 @@ public class Trade {
         activeSelected[0] = false;
         activeSelected[1] = false;
 
-//        for(int i = 0; i < Assets.beans.length; i++) { //giving
-//            counts[i] = 0;
-//            buttons[2*i] = new Button(Assets.buttonSkin, "minus");
-//            buttons[2*i+1] = new Button(Assets.buttonSkin, "plus");
-//            buttons[2*i].setSize(20, 20);
-//            buttons[2*i+1].setSize(20,20);
-//            buttons[2*i].setPosition(startX + 60 * i + 2, 450);
-//            buttons[2*i+1].setPosition(startX + 60 * i + 26, 450);
-//            buttons[2*i].addListener(new TradeButtonListener(i) {
-//                @Override
-//                public void clicked(InputEvent e, float x, float y) {
-//                    if(counts[i] > 0 && waiting == 0) {
-//                        counts[i]--;
-//                    }
-//                }
-//            });
-//            buttons[2*i+1].addListener(new TradeButtonListener(i, game.getPlayer().getHand()) {
-//                @Override
-//                public void clicked(InputEvent e, float x, float y) {
-//                    if (counts[i] < hand.getCardNum(i) && counts[i] < 9 && waiting == 0) {
-//                        counts[i]++;
-//                    }
-//                }
-//            });
-//            stage.addActor(buttons[2*i]);
-//            stage.addActor(buttons[2*i+1]);
-//        }
         for(int i = 0; i < Assets.beans.length; i++) { //getting
             counts2[i] = 0;
             buttons2[2*i] = new Button(Assets.buttonSkin, "minus");
             buttons2[2*i+1] = new Button(Assets.buttonSkin, "plus");
             buttons2[2*i].setSize(20, 20);
             buttons2[2*i+1].setSize(20,20);
-            buttons2[2*i].setPosition(Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 60 * i + 32, 240);
-            buttons2[2*i+1].setPosition(Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 60 * i + 56, 240);
+            buttons2[2*i].setPosition(Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 60 * i + 32, 236);
+            buttons2[2*i+1].setPosition(Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 60 * i + 56, 236);
             buttons2[2*i].addListener(new TradeButtonListener(i) {
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
@@ -116,8 +89,8 @@ public class Trade {
         active2 = new Button(Assets.buttonSkin, "check");
         active1.setSize(20, 20);
         active2.setSize(20, 20);
-        active1.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 132, 450);
-        active2.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 72, 450);
+        active1.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 132, 446);
+        active2.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 72, 446);
         active1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -171,7 +144,7 @@ public class Trade {
         for(int i = 0; i < offerChecks.length; i++) {
             Button b = new Button(Assets.buttonSkin, "check");
             b.setSize(20, 20);
-            b.setPosition(Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 44 + 60*i, 450);
+            b.setPosition(Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 44 + 60*i, 446);
             b.addListener(new TradeButtonListener(i) {
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
@@ -191,13 +164,13 @@ public class Trade {
 
         hand = game.getPlayer().getHand().getCards();
         for(int i = 0; i < hand.size(); i++) {
-            batch.draw(Assets.beans[hand.get(i).getCardVal()], Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 30 + 60*i, 470, 48, 84);
+            batch.draw(Assets.beans[hand.get(i).getCardVal()], Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 30 + 60*i, 470, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
         }
 
         for(int i = 0; i < Assets.beans.length; i++) {
             layout.setText(font, "" + counts2[i]);
             font.draw(batch, layout, Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 54 + 60*i - layout.width/2, 360);
-            batch.draw(Assets.beans[i], Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 30 + 60*i, 260, 48, 84);
+            batch.draw(Assets.beans[i], Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 30 + 60*i, 260, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
         }
         for(int i = 0; i < game.getOpponents().size(); i++) {
             layout.setText(font, game.getOpponents().get(i).getName());
@@ -205,7 +178,7 @@ public class Trade {
         }
         for(int i = 0; i < game.getPlayer().getActive().length; i++) {
             if(!(game.getPlayer().getActive()[i] == null)) {
-                batch.draw(game.getPlayer().getActive()[i].getTexture(), Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 30 - 60*(game.getPlayer().getActive().length-i), 470, 48, 84);
+                batch.draw(game.getPlayer().getActive()[i].getTexture(), Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 30 - 60*(game.getPlayer().getActive().length-i), 470, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
             }
         }
         batch.end();
