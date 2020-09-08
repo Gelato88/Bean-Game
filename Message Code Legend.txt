@@ -1,0 +1,39 @@
+1000<clients>: new client connected
+1001<>: start game
+1002<num>: sets player number
+
+2000<player card>: deals a card to a player
+
+3000<player>: starts a player's turn
+3001<>: end's current turn
+3002<player spot card total_cards>: plants a card
+3003<player spot total_coins>: harvests a spot
+3004<>: requests card flipping
+3005<card>: gives a flipped card (active)
+3006<index>: planted from flipped
+3007<card number>: discards cards
+3008<>: asks to end turn
+3009<>: ends turn
+
+4000<player num_players y/n offered requested active1 active2>: sends a trade offer
+4001<player responder>: accepts a trade offer
+4002<player responder>: rejects a trade offer
+4003<>: closes a trade offer
+4004<>: a player has not planted traded cards
+4005<>: a player has finished planting their traded cards
+4006<index>: removes a flipped card
+
+5000<>: ends the game
+
+9999<>: closes the program
+
+Issues:
+cannot choose which card to trade if holding multiple
+cannot trade more than 9 of a card at a time
+hand will not show after planting phase ends
+does not show how many cards a player holds
+does not show if flipped cards are offered in a trade request
+game allows to plant traded cards, then continue trading
+first player to respond yes gets trade
+can still plant after trading before flipping
+possible to stack responses while waiting for server when ending turn

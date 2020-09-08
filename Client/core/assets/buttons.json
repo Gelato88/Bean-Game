@@ -1,0 +1,61 @@
+{
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+    connect: {
+	    up: connect_unclicked,
+		down: connect_clicked,
+		over: connect_hover
+	},
+    harvest: {
+	    up: harvest_unclicked,
+		down: harvest_clicked,
+		over: harvest_hover
+	},
+	end_turn: {
+	    up: end_turn_unclicked,
+		down: end_turn_clicked,
+		over: end_turn_hover
+	},
+	trade: {
+	    up: trade_unclicked,
+		down: trade_clicked,
+		over: trade_hover
+	},
+	plant: {
+		up: plant_unclicked,
+		down: plant_clicked,
+		over: plant_hover
+	},
+	plus: {
+		up: plus_unclicked,
+		down: plus_clicked,
+		over: plus_hover
+	},
+	minus: {
+		up: minus_unclicked,
+		down: minus_clicked,
+		over: minus_hover
+	},
+	close: {
+	    up: close_unclicked,
+		down: close_clicked,
+		over: close_hover
+	},
+	check: {
+		up: blank_unclicked,
+		down: blank_clicked,
+		over: blank_hover,
+		checked: check_unclicked,
+		checkedOver: check_hover
+	},
+	next: {
+		up: flip_unclicked,
+		down: flip_clicked,
+		over: flip_hover
+	},
+	send: {
+		up: enter_unclicked,
+		down: enter_clicked,
+		over: enter_hover
+	}
+}
+}
