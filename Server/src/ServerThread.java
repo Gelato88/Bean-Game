@@ -23,10 +23,7 @@ public class ServerThread extends Thread {
         try {
             input = socket.getInputStream();
             reader = new BufferedReader(new InputStreamReader(input));
-
-
             String text;
-
             do {
                 text = reader.readLine();
                 System.out.println(name + ": " + text);
@@ -48,16 +45,16 @@ public class ServerThread extends Thread {
                         Main.changeTurn();
                         break;
                     case 3002:
-                        Main.playerPlanted(text.substring(4));
+                        Main.plant(text.substring(4));
                         break;
                     case 3003:
-                        Main.playerHarvested(text.substring(4));
+                        Main.harvest(text.substring(4));
                         break;
                     case 3004:
                         Main.flipCards();
                         break;
                     case 3006:
-                        Main.sendToAll(3006, text.substring(4));
+                        Main.plantFromFlipped(text.substring(4));
                         break;
                     case 3007:
                         Main.discardCards(text.substring(4));
@@ -66,14 +63,13 @@ public class ServerThread extends Thread {
                         Main.checkEndTurn();
                         break;
                     case 4000:
-                        Main.sendToAll(4000, text.substring(4));
+                        Main.sendTrade(text.substring(4));
                         break;
                     case 4001:
-                        Main.sendToAll(4001, "");
-                        Main.sendToAll(4003, "");
+                        Main.acceptTrade("");
                         break;
                     case 4002:
-                        Main.sendToAll(4002, "");
+                        Main.rejectTrade("");
                         break;
                     case 4004:
                         Main.incrementWaitingForTradePlants(1);
@@ -82,16 +78,18 @@ public class ServerThread extends Thread {
                         Main.incrementWaitingForTradePlants(-1);
                         break;
                     case 4006:
-                        Main.sendToAll(4006, text.substring(4));
+                        Main.removeFlippedCard(text.substring(4));
                         break;
                     case 9000:
-                        Main.sendToAll(text.substring(4));
+                        Main.sendFromConsole(text.substring(4));
                         break;
                     case 9999:
                         close();
                         break;
+                    default:
+                        System.out.println("ERROR: Received an invalid message code");
+                        break;
                 }
-
             } while(running);
             socket.close();
         } catch(IOException e) {
@@ -101,25 +99,13 @@ public class ServerThread extends Thread {
         System.exit(0);
     }
 
-//    /* Asks for and assigns the user a name.
-//     *
-//     */
-//    public void requestName() {
-//        try {
-//            writer.println("Server: Enter your name.");
-//            name = reader.readLine();
-//            System.out.println("Received name " + name + ".");
-//            writer.println("Server: Received name " + name + ".");
-//        } catch(IOException e) {
-//            System.out.println("Server exception: " + e.getMessage());
-//            e.printStackTrace();
-//        }
-//    }
-
+    /* Ends this thread
+     *
+     */
     public void close() {
+        System.out.println("Closing...");
         Main.sendToAll(9999, "");
         running = false;
-        System.out.println("Closing...");
     }
 
     /* Sends a message to this user.
