@@ -22,7 +22,7 @@
 4001<player responder>: accepts a trade offer
 4002<player responder>: rejects a trade offer
 4003<>: closes a trade offer
-4004<>: a player has not planted traded cards
+4004<>: a player now has cards in their traded hand
 4005<>: a player has finished planting their traded cards
 4006<index>: removes a flipped card
 
@@ -30,12 +30,3 @@
 
 9000<message>: sends a message to everyone
 9999<>: closes the program
-
-Issues:
-cannot trade more than 9 of a card at a time
-does not show how many cards a player holds
-does not show if flipped cards are offered in a trade request
-game allows to plant traded cards, then continue trading
-first player to respond yes gets trade
-can still plant after trading before flipping
-possible to stack responses while waiting for server when ending turn
