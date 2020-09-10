@@ -15,7 +15,7 @@ public class InputThread extends Thread {
 
     private boolean stop;
 
-    public InputThread(Socket socket, BeanGame client, ActionThread actionThread;) {
+    public InputThread(Socket socket, BeanGame client, ActionThread actionThread) {
         this.socket = socket;
         this.client = client;
         this.actionThread = actionThread;

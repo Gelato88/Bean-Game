@@ -66,6 +66,7 @@ public class Main {
         for(Player p : players) {
             p.sendMessage(str);
         }
+        System.out.println("Sent:     " + str);
     }
 
     /* Updates player count for all connected clients

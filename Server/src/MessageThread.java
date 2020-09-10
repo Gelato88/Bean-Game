@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class MessageThread extends Thread{
 
-    private ArrayList<String> messages;
+    public static volatile ArrayList<String> messages;
     private boolean running;
 
     public MessageThread() {
@@ -29,12 +29,12 @@ public class MessageThread extends Thread{
     }
 
     public void queueMessage(int code, String message) {
-        System.out.println("sending: " + code + message);
+        System.out.println("Sending: " + code + message);
         messages.add(""+code+message);
     }
 
     public void queueMessage(String message) {
-        System.out.println("sending: " + message + " (uncoded)");
+        System.out.println("Sending: " + message + " (uncoded)");
         messages.add(message);
     }
 }

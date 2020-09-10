@@ -260,6 +260,7 @@ public class BeanGame extends ApplicationAdapter {
 		Settings.IP = ipInput.getText();
 		name = nameInput.getText();
 		actionThread = new ActionThread(this);
+		actionThread.start();
 		try {
 			s = new Socket(InetAddress.getByName(Settings.IP), Settings.PORT);
 			output = s.getOutputStream();

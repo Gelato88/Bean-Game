@@ -145,6 +145,12 @@ public class Trade {
             checks[i].setChecked(false);
             active[i] = false;
         }
+        if(game.getPlayer().getActive()[0] == null) {
+            hideButton(active1);
+        }
+        if(game.getPlayer().getActive()[1] == null) {
+            hideButton(active2);
+        }
         updateHand();
     }
 

@@ -4,7 +4,6 @@ import java.net.*;
 public class ServerThread extends Thread {
 
     private Socket socket;
-    private String name;
     private boolean running;
 
     private BufferedReader reader;
@@ -13,7 +12,6 @@ public class ServerThread extends Thread {
     private PrintWriter writer;
 
     public ServerThread(Socket socket) {
-        name = "test";
         this.socket = socket;
     }
 
@@ -26,7 +24,7 @@ public class ServerThread extends Thread {
             String text;
             do {
                 text = reader.readLine();
-                System.out.println(name + ": " + text);
+                System.out.println("Received: " + text);
 
                 switch(Integer.parseInt(text.substring(0, 4))) {
                     case 1000:
