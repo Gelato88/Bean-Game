@@ -38,7 +38,7 @@ public class BeanGame extends ApplicationAdapter {
 	private BitmapFont font;
 	private GlyphLayout layout;
 	private TextField ipInput;
-	private Button enterIp;
+	private TextField nameInput;
 	private Stage setupStage;
 	private Stage introStage;
 	private Stage endStage;
@@ -59,6 +59,7 @@ public class BeanGame extends ApplicationAdapter {
     private boolean gameStarted;
     private boolean opponentsGenerated;
     private int connected;
+    private String name;
     private String[] names;
     private int[] scores;
 
@@ -98,10 +99,17 @@ public class BeanGame extends ApplicationAdapter {
 		currentTurn = 0;
 		playerNumber = 0;
 
-		ipInput = new TextField("Enter Host IP", Assets.textFieldSkin);
+		ipInput = new TextField("", Assets.textFieldSkin);
+		ipInput.setMessageText("Enter Host IP");
 		ipInput.setSize(480, 60);
 		ipInput.setPosition(Settings.RES_WIDTH/2 - ipInput.getWidth()/2, 300);
 		ipInput.setAlignment(Align.center);
+
+		nameInput = new TextField("", Assets.textFieldSkin);
+		nameInput.setMessageText("Enter Name");
+		nameInput.setSize(480, 60);
+		nameInput.setPosition(Settings.RES_WIDTH/2 - nameInput.getWidth()/2, 380);
+		nameInput.setAlignment(Align.center);
 
 		connect = new Button(Assets.buttonSkin, "connect");
 		connect.setSize(100, 50);
@@ -114,6 +122,7 @@ public class BeanGame extends ApplicationAdapter {
 		});
 
 		setupStage.addActor(ipInput);
+		setupStage.addActor(nameInput);
 		setupStage.addActor(connect);
 
 		tradeButton = new Button(Assets.buttonSkin, "trade");
@@ -122,8 +131,8 @@ public class BeanGame extends ApplicationAdapter {
 		tradeButton.addListener(new ClickListener() {
 		    @Override
             public void clicked(InputEvent e, float x, float y) {
-		        trading = true;
-		        trade.updateHand();
+		        trade.resetValues();
+		    	trading = true;
             }
         });
 		hideButton(tradeButton);
@@ -159,6 +168,12 @@ public class BeanGame extends ApplicationAdapter {
             case 0:
                 batch.begin();
                 batch.enableBlending();
+                layout.setText(font, "https://github.com/Gelato88/Bean-Game");
+                font.draw(batch, layout, 20, Settings.RES_HEIGHT - 20 - layout.height);
+                layout.setText(font, "Code and crappy art by Scott");
+                font.draw(batch, layout, 20, Settings.RES_HEIGHT - 40 - layout.height);
+                layout.setText(font, "Card art by Joey");
+                font.draw(batch, layout, 20, Settings.RES_HEIGHT - 60 - layout.height);
                 batch.end();
                 setupStage.draw();
                 setupStage.act();
@@ -182,9 +197,16 @@ public class BeanGame extends ApplicationAdapter {
                     }
                     batch.begin();
                     batch.draw(Assets.background, 0, 0, Settings.RES_WIDTH, Settings.RES_HEIGHT);
-                    layout.setText(font, "You are player " + playerNumber);
+                    layout.setText(font, "You are " + name + " (Player " + playerNumber + ")");
                     font.draw(batch, layout, Settings.RES_WIDTH/2 - layout.width/2, Settings.RES_HEIGHT - 15);
-                    layout.setText(font, "It is currently player " + currentTurn + "'s turn.");
+                    if(playerNumber == currentTurn) {
+                    	layout.setText(font, "It is currently your turn.");
+					} else if(currentTurn != 0) {
+                    	Opponent turn = findOpponent(currentTurn);
+						layout.setText(font, "It is currently " + turn.getName() + "'s turn. (Player " + currentTurn + ")");
+					} else {
+                    	layout.setText(font, "");
+					}
                     font.draw(batch, layout, Settings.RES_WIDTH/2-layout.width/2, Settings.RES_HEIGHT-30);
                     batch.end();
 
@@ -224,7 +246,9 @@ public class BeanGame extends ApplicationAdapter {
 
 	@Override
 	public void resize(int width, int height) {
+		stage.getViewport().update(width, height, true);
 		player.getStage().getViewport().update(width, height, true);
+		player.getTradedHand().getStage().getViewport().update(width, height, true);
 		trade.getStage().getViewport().update(width, height, true);
 		tradeOffer.getStage().getViewport().update(width, height, true);
 		setupStage.getViewport().update(width, height, true);
@@ -233,6 +257,7 @@ public class BeanGame extends ApplicationAdapter {
 
 	public void attemptConnection() {
 		Settings.IP = ipInput.getText();
+		name = nameInput.getText();
 		try {
 			s = new Socket(InetAddress.getByName(Settings.IP), Settings.PORT);
 			output = s.getOutputStream();
@@ -243,7 +268,6 @@ public class BeanGame extends ApplicationAdapter {
 			terminal.start();
 			gameStatus = 1;
 			Gdx.input.setInputProcessor(introStage);
-
 		} catch(UnknownHostException e) {
 			System.out.println("Server not found: " + e.getMessage());
 		} catch(IOException e) {
@@ -292,6 +316,7 @@ public class BeanGame extends ApplicationAdapter {
 
 	public void setPlayerNumber(int num) {
 		playerNumber = num;
+		sendMessage(1003, ""+playerNumber+name);
 	}
 
 	public void setCurrentTurn(int player) {
@@ -357,7 +382,19 @@ public class BeanGame extends ApplicationAdapter {
 				opponents.add(new Opponent(str, i, Settings.RES_WIDTH - (Settings.OPPONENT_BOX_WIDTH+10)*(j%2 + 1), Settings.RES_HEIGHT - (Settings.OPPONENT_BOX_HEIGHT+10)*((j-1)/2 + 1)));
 			}
 		}
+		for(int i = 0; i < opponents.size(); i++) {
+			sendMessage(1004, ""+playerNumber+opponents.get(i).getPlayerNum());
+		}
 		opponentsGenerated = true;
+	}
+
+	public void setOpponentName(String info) {
+		int opponentNumber = Integer.parseInt(info.substring(0,1));
+		String name = info.substring(1);
+		if(opponentNumber > playerNumber) {
+			opponentNumber--;
+		}
+		opponents.get(opponentNumber-1).setName(name);
 	}
 
 	/*
@@ -389,7 +426,6 @@ public class BeanGame extends ApplicationAdapter {
 		} else {
 			num = playerNumber;
 		}
-		System.out.println(info.substring(num+1, num+2));
 
 		if(Integer.parseInt(info.substring(num+1, num+2)) == 1) {
 			int[] offered = new int[Assets.beans.length];
@@ -401,8 +437,6 @@ public class BeanGame extends ApplicationAdapter {
 			int[] actives = new int[2];
 			actives[0] = Integer.parseInt(info.substring(info.length()-2, info.length()-1));
 			actives[1] = Integer.parseInt(info.substring(info.length()-1));
-			System.out.println("Active 1: " + actives[0]);
-			System.out.println("Active 2: " + actives[1]);
 			tradeOffer.setValues(requested, offered, actives);
 			showTradeOffer = true;
 		}

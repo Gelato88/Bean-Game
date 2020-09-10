@@ -97,7 +97,7 @@ public class Spot {
             batch.begin();
             batch.enableBlending();
             for (int i = 0; i < cards; i++) {
-                batch.draw(Assets.beans[cardVal], x, 350 - 30 * i, Settings.CARD_WIDTH, Settings.CARD_HEIGHT);
+                batch.draw(Assets.beans[cardVal], x, 390 - 30 * i, Settings.CARD_WIDTH, Settings.CARD_HEIGHT);
             }
             batch.end();
         }

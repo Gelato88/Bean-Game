@@ -132,6 +132,22 @@ public class Trade {
         hideButton(active2);
     }
 
+    public void resetValues() {
+        for(int i = 0; i < counts2.length; i++) {
+            counts2[i] = 0;
+        }
+        for(int i = 0; i < activeSelected.length; i++) {
+            activeSelected[i] = false;
+        }
+        active1.setChecked(false);
+        active2.setChecked(false);
+        for(int i = 0; i < checks.length; i++) {
+            checks[i].setChecked(false);
+            active[i] = false;
+        }
+        updateHand();
+    }
+
     public void updateHand() {
         if(!(offerChecks == null)) {
             for (int i = 0; i < offerChecks.length; i++) {

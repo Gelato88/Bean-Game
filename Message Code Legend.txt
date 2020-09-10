@@ -1,6 +1,9 @@
 1000<clients>: new client connected
 1001<>: start game
 1002<num>: sets player number
+1003<player name>: sends player name to server
+1004<player num>: requests a player name from server
+1005<player num name>: sets a player name for the client
 
 2000<player card>: deals a card to a player
 
@@ -25,12 +28,11 @@
 
 5000<>: ends the game
 
+9000<message>: sends a message to everyone
 9999<>: closes the program
 
 Issues:
-cannot choose which card to trade if holding multiple
 cannot trade more than 9 of a card at a time
-hand will not show after planting phase ends
 does not show how many cards a player holds
 does not show if flipped cards are offered in a trade request
 game allows to plant traded cards, then continue trading

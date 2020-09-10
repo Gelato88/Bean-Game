@@ -27,7 +27,7 @@ public class Settings {
     public static final float TRADE_OFFER_WIDTH = 630;
     public static final float TRADE_OFFER_HEIGHT = 720;
 
-    public static final int KEY_ZOOM = Input.Keys.SHIFT_LEFT;
+    public static final int KEY_ZOOM = Input.Keys.CONTROL_LEFT;
 
 
 

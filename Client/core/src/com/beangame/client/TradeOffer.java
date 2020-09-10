@@ -66,10 +66,10 @@ public class TradeOffer {
         for(int i = 0; i < Assets.beans.length; i++) {
             layout.setText(font, "" + requested[i]);
             font.draw(batch, layout, startX1 + 60*(i%3) + 48/2 - layout.width/2, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 + 90 - 90*(i/3));
-            batch.draw(Assets.beans[i], startX1 + 60*(i%3), Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 90*(i/3), 48, 84);
+            batch.draw(Assets.beans[i], startX1 + 60*(i%3), Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 90*(i/3),  Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
             layout.setText(font, "" + offered[i]);
             font.draw(batch, layout, startX2 + 60*(i%3) + 48/2 - layout.width/2, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 + 90 - 90*(i/3));
-            batch.draw(Assets.beans[i], startX2 + 60*(i%3), Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 90*(i/3), 48, 84);
+            batch.draw(Assets.beans[i], startX2 + 60*(i%3), Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 90*(i/3),  Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
         }
         layout.setText(font, "1");
         if(actives[0] == 1 && game.getPlayer().getActive()[0] != null && actives[1] == 1 && game.getPlayer().getActive()[1] != null) {

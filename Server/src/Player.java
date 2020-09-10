@@ -9,6 +9,7 @@ public class Player {
     private int coins;
     private int cards;
     private int playerNumber;
+    private String name;
     private ServerThread thread;
 
     public Player(ServerThread thread) {
@@ -50,6 +51,10 @@ public class Player {
         return playerNumber;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setSpot1Type(int type) {
         spot1Type = type;
     }
@@ -76,6 +81,10 @@ public class Player {
 
     public void setPlayerNumber(int num) {
         playerNumber = num;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void sendMessage(String str) {

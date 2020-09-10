@@ -9,7 +9,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.title = "The Bean Game!!!";
+		config.title = "The Bean Game!!!!";
 		config.width = Settings.RES_WIDTH;
 		config.height = Settings.RES_HEIGHT;
 

@@ -38,6 +38,12 @@ public class ServerThread extends Thread {
                     case 1001:
                         Main.startGame();
                         break;
+                    case 1003:
+                        Main.setPlayerName(text.substring(4));
+                        break;
+                    case 1004:
+                        Main.sendPlayerName(text.substring(4));
+                        break;
                     case 3001:
                         Main.changeTurn();
                         break;
@@ -77,6 +83,9 @@ public class ServerThread extends Thread {
                         break;
                     case 4006:
                         Main.sendToAll(4006, text.substring(4));
+                        break;
+                    case 9000:
+                        Main.sendToAll(text.substring(4));
                         break;
                     case 9999:
                         close();

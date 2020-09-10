@@ -37,7 +37,6 @@ public class Player {
 
     private int actions;
     private int coins;
-    private boolean showHand;
 
     public Player(final BeanGame client) {
 
@@ -55,14 +54,13 @@ public class Player {
         tradedHand = new TradedHand(this, client);
 
         actions = 0;
-        showHand = true;
 
         harvest1 = new Button(Assets.buttonSkin, "harvest");
         harvest2 = new Button(Assets.buttonSkin, "harvest");
-        harvest1.setSize(50,50);
-        harvest2.setSize(50,50);
-        harvest1.setPosition(Settings.RES_WIDTH/2-100 - 25, 620);
-        harvest2.setPosition(Settings.RES_WIDTH/2+100 - 25, 620);
+        harvest1.setSize(60,60);
+        harvest2.setSize(60,60);
+        harvest1.setPosition(Settings.RES_WIDTH/2-100 - harvest1.getWidth()/2, 640);
+        harvest2.setPosition(Settings.RES_WIDTH/2+100 - harvest1.getWidth()/2, 640);
         harvest1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -80,14 +78,14 @@ public class Player {
         plantFlipped2 = new Button(Assets.buttonSkin, "plant");
         next = new Button(Assets.buttonSkin, "next");
         endTurn = new Button(Assets.buttonSkin, "end_turn");
-        plant.setSize(50, 75);
-        plantFlipped1.setSize(50, 75);
-        plantFlipped2.setSize(50, 75);
+        plant.setSize(60, 60);
+        plantFlipped1.setSize(60, 60);
+        plantFlipped2.setSize(60, 60);
         next.setSize(100, 100);
         endTurn.setSize(100, 100);
-        plant.setPosition(Settings.RES_WIDTH/2 + 325,100);
-        plantFlipped1.setPosition(150, 290);
-        plantFlipped2.setPosition(150, 465);
+        plant.setPosition(Settings.RES_WIDTH/2 + 350,100);
+        plantFlipped1.setPosition(160, 300);
+        plantFlipped2.setPosition(160, 480);
         next.setPosition(Settings.RES_WIDTH - 150, 50);
         endTurn.setPosition(Settings.RES_WIDTH - 150, 50);
         plant.addListener(new ClickListener() {
@@ -141,12 +139,12 @@ public class Player {
 
     public void render(SpriteBatch batch) {
         drawMat(batch);
-        tradedHand.render(batch);
         drawActive(batch);
         stage.draw();
         stage.act();
         spot1.render(batch);
         spot2.render(batch);
+        tradedHand.render(batch);
         hand.render(batch);
     }
 
@@ -158,7 +156,7 @@ public class Player {
         font.setColor(Color.WHITE);
         layout.setText(font, ""+coins);
         font.draw(batch, layout, 110, Settings.RES_HEIGHT-75);
-        batch.draw(Assets.mat, Settings.RES_WIDTH/2 - 200, 400, 400, 200);
+        batch.draw(Assets.mat, Settings.RES_WIDTH/2 - 200, 440, 400, 200);
         batch.end();
 
     }
@@ -168,7 +166,7 @@ public class Player {
         batch.enableBlending();
         for(int i = 0; i < active.length; i++) {
             if(active[i] != null) {
-                batch.draw(active[i].getTexture(), 40, 240 + 175 * i, Settings.CARD_WIDTH * 0.8f, Settings.CARD_HEIGHT * 0.8f);
+                batch.draw(active[i].getTexture(), 40, 240 + 180 * i, Settings.CARD_WIDTH * 0.8f, Settings.CARD_HEIGHT * 0.8f);
             }
         }
         batch.end();
@@ -350,7 +348,6 @@ public class Player {
         hideButton(next);
         hideButton(plant);
         showButton(endTurn);
-        showHand = false;
         client.sendMessage(3004, "");
     }
 

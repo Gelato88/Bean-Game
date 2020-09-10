@@ -44,6 +44,11 @@ public class InputThread extends Thread {
                         case 1002:
                             client.setPlayerNumber(Integer.parseInt(text.substring(4)));
                             break;
+                        case 1005:
+                            if (client.playerNumber == Integer.parseInt(text.substring(4, 5))) {
+                                client.setOpponentName(text.substring(5));
+                            }
+                            break;
                         case 2000:
                             if(client.playerNumber == Integer.parseInt(text.substring(4, 5))) {
                                 client.getPlayer().addCard(Integer.parseInt(text.substring(5)));

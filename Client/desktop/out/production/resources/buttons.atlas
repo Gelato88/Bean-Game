@@ -1,5 +1,5 @@
 buttons.png
-size: 1852, 1024
+size: 1980, 1840
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -12,21 +12,21 @@ blank_clicked
   index: -1
 blank_hover
   rotate: false
-  xy: 0, 128
+  xy: 1852, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 blank_unclicked
   rotate: false
-  xy: 128, 128
+  xy: 0, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 button
   rotate: false
-  xy: 200, 0
+  xy: 0, 0
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
@@ -40,63 +40,63 @@ check_clicked
   index: -1
 check_hover
   rotate: false
-  xy: 256, 128
+  xy: 128, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 check_unclicked
   rotate: false
-  xy: 1596, 0
+  xy: 512, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 close_clicked
   rotate: false
-  xy: 640, 128
+  xy: 384, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 close_hover
   rotate: false
-  xy: 512, 128
+  xy: 256, 128
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 close_unclicked
   rotate: false
-  xy: 384, 128
+  xy: 1596, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 connect_clicked
   rotate: false
-  xy: 300, 0
+  xy: 500, 0
   size: 200, 100
   orig: 200, 100
   offset: 0, 0
   index: -1
 connect_hover
   rotate: false
-  xy: 500, 0
+  xy: 300, 0
   size: 200, 100
   orig: 200, 100
   offset: 0, 0
   index: -1
 connect_unclicked
   rotate: false
-  xy: 0, 0
+  xy: 100, 0
   size: 200, 100
   orig: 200, 100
   offset: 0, 0
   index: -1
 end_turn_clicked
   rotate: false
-  xy: 1024, 384
+  xy: 1536, 384
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
@@ -110,126 +110,126 @@ end_turn_hover
   index: -1
 end_turn_unclicked
   rotate: false
-  xy: 768, 384
+  xy: 256, 384
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 enter_clicked
   rotate: false
-  xy: 256, 384
+  xy: 0, 384
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 enter_hover
   rotate: false
-  xy: 512, 384
+  xy: 1408, 128
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 enter_unclicked
   rotate: false
-  xy: 0, 384
+  xy: 1152, 128
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 flip_clicked
   rotate: false
-  xy: 512, 640
+  xy: 512, 384
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 flip_hover
   rotate: false
-  xy: 0, 640
+  xy: 768, 384
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 flip_unclicked
   rotate: false
-  xy: 768, 640
+  xy: 1024, 384
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 harvest_clicked
   rotate: false
-  xy: 1536, 384
-  size: 256, 256
-  orig: 256, 256
+  xy: 600, 1240
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
   index: -1
 harvest_hover
   rotate: false
-  xy: 1536, 128
-  size: 256, 256
-  orig: 256, 256
+  xy: 600, 640
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
   index: -1
 harvest_unclicked
   rotate: false
-  xy: 768, 128
-  size: 256, 256
-  orig: 256, 256
+  xy: 0, 1240
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
   index: -1
 minus_clicked
   rotate: false
-  xy: 1212, 0
+  xy: 956, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 minus_hover
   rotate: false
-  xy: 828, 0
+  xy: 1084, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 minus_unclicked
   rotate: false
-  xy: 1084, 0
+  xy: 1340, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 plant_clicked
   rotate: false
-  xy: 1280, 640
-  size: 256, 384
-  orig: 256, 384
+  xy: 1200, 1240
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
   index: -1
 plant_hover
   rotate: false
-  xy: 1536, 640
-  size: 256, 384
-  orig: 256, 384
+  xy: 0, 640
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
   index: -1
 plant_unclicked
   rotate: false
-  xy: 1024, 640
-  size: 256, 384
-  orig: 256, 384
+  xy: 1200, 640
+  size: 600, 600
+  orig: 600, 600
   offset: 0, 0
   index: -1
 plus_clicked
   rotate: false
-  xy: 1340, 0
+  xy: 1212, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 plus_hover
   rotate: false
-  xy: 956, 0
+  xy: 828, 0
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -243,21 +243,21 @@ plus_unclicked
   index: -1
 trade_clicked
   rotate: false
-  xy: 1280, 128
+  xy: 640, 128
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 trade_hover
   rotate: false
-  xy: 1024, 128
+  xy: 896, 128
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 trade_unclicked
   rotate: false
-  xy: 256, 640
+  xy: 1664, 128
   size: 256, 256
   orig: 256, 256
   offset: 0, 0

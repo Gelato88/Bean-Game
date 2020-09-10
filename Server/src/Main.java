@@ -40,26 +40,18 @@ public class Main {
             e.printStackTrace();
         }
     }
-//
-//    public static void quit() {
-//        running = false;
-//        try {
-//            for (ServerThread thread : players) {
-//                thread.close();
-//                ss.close();
-//                System.exit(-1);
-//            }
-//        } catch(IOException e) {
-//            System.out.println("Server exception: " +  e.getMessage());
-//            e.printStackTrace();
-//        }
-//    }
 
     public static void sendToAll(int code, String str) {
-        wait(500);
         System.out.println("sending: " + code + str);
         for(Player p : players) {
             p.sendMessage("" + code + str);
+        }
+    }
+
+    public static void sendToAll(String str) {
+        System.out.println("sending: " + str);
+        for(Player p : players) {
+            p.sendMessage(str);
         }
     }
 
@@ -77,6 +69,7 @@ public class Main {
                 deck = new int[144];
                 break;
             default:
+                deck = new int[110];
                 System.out.println("Server exception: Invalid number of players.");
         }
         int startIndex = 0;
@@ -97,24 +90,10 @@ public class Main {
         startIndex += addCardsToDeck(8, startIndex, 12);
         startIndex += addCardsToDeck(9, startIndex, 16);
         startIndex += addCardsToDeck(10, startIndex, 22);
-        printDeck();
         shuffleDeck();
-        printDeck();
     }
 
-    public static void startGame() {
-        generateDeck();
-        System.out.println("Starting game...");
-        sendToAll(1001, "");
-        for(int i = 0; i < 6; i++) {
-            for (int j = 1; j <= players.size(); j++) {
-                dealCard(j);
-            }
-        }
-        currentTurnIndex = (int)(Math.random() * players.size());
-        currentTurn = players.get(currentTurnIndex);
-        sendToAll(3000, ""+(currentTurnIndex+1));
-    }
+
 
     public static int addCardsToDeck(int cardVal, int startIndex, int number) {
         for(int i = 0; i < number; i++) {
@@ -132,12 +111,18 @@ public class Main {
         }
     }
 
-    public static void printDeck() {
-        System.out.println("Deck size: " + deck.length);
-        for(int i = 0; i < deck.length; i++) {
-            System.out.print(deck[i] + " ");
+    public static void startGame() {
+        generateDeck();
+        System.out.println("Starting game...");
+        sendToAll(1001, "");
+        for(int i = 0; i < 5; i++) {
+            for (int j = 1; j <= players.size(); j++) {
+                dealCard(j);
+            }
         }
-        System.out.println();
+        currentTurnIndex = (int)(Math.random() * players.size());
+        currentTurn = players.get(currentTurnIndex);
+        sendToAll(3000, ""+(currentTurnIndex+1));
     }
 
     public static void dealCard(int player) {
@@ -153,6 +138,19 @@ public class Main {
             discard.clear();
             shuffleDeck();
         }
+    }
+
+    public static void setPlayerName(String info) {
+        int playerNumber = Integer.parseInt(info.substring(0,1));
+        String playerName = info.substring(1);
+        players.get(playerNumber-1).setName(playerName);
+    }
+
+    public static void sendPlayerName(String info) {
+        int playerNumber = Integer.parseInt(info.substring(0,1));
+        int playerRequested = Integer.parseInt(info.substring(1,2));
+        String name = players.get(playerRequested-1).getName();
+        sendToAll(1005, ""+playerNumber+playerRequested+name);
     }
 
     public static void updatePlayerCount() {
