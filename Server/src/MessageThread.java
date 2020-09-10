@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class MessageThread extends Thread{
 
-    public ArrayList<String> messages;
-    public boolean running;
+    private ArrayList<String> messages;
+    private boolean running;
 
     public MessageThread() {
         messages = new ArrayList<>();

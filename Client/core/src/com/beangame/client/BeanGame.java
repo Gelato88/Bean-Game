@@ -32,7 +32,8 @@ public class BeanGame extends ApplicationAdapter {
 	private Socket s;
 	private OutputStream output;
 	private PrintWriter writer;
-	private InputThread inputThread;
+    private ActionThread actionThread;
+    private InputThread inputThread;
 
 	private SpriteBatch batch;
 	private BitmapFont font;
@@ -258,11 +259,12 @@ public class BeanGame extends ApplicationAdapter {
 	public void attemptConnection() {
 		Settings.IP = ipInput.getText();
 		name = nameInput.getText();
+		actionThread = new ActionThread(this);
 		try {
 			s = new Socket(InetAddress.getByName(Settings.IP), Settings.PORT);
 			output = s.getOutputStream();
 			writer = new PrintWriter(output, true);
-			inputThread = new InputThread(s, this);
+			inputThread = new InputThread(s, this, actionThread);
 			inputThread.start();
 			terminal = new Terminal(s, this);
 			terminal.start();
