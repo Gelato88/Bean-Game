@@ -1,6 +1,5 @@
 package com.beangame.client;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /* A spot represents a space on the player's mat where beans may be planted.
@@ -9,10 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public class Spot {
 
-    private int cardVal;
-
     private float x;
-    int spotNum;
+    private int cardVal;
+    private int spotNum;
     private int cards;
     private int coins1;
     private int coins2;
@@ -25,24 +23,34 @@ public class Spot {
         cardVal = -1;
     }
 
+    public void render(SpriteBatch batch, float mouseX, float mouseY) {
+        if(cardVal != -1) {
+            batch.begin();
+            batch.enableBlending();
+            for (int i = 0; i < cards; i++) {
+                batch.draw(Assets.beans[cardVal], x, 390 - 30 * i, Settings.CARD_WIDTH, Settings.CARD_HEIGHT);
+            }
+            batch.end();
+        }
+    }
+
     public int getSpotNum() {
         return spotNum;
     }
 
-    private void setCoins(int coins1, int coins2, int coins3, int coins4) {
-        this.coins1 = coins1;
-        this.coins2 = coins2;
-        this.coins3 = coins3;
-        this.coins4 = coins4;
+    public int getType() {
+        return cardVal;
     }
 
-    public boolean isOpen() {
-        return cards == 0;
+    public int getCards() {
+        return cards;
     }
 
+    /*
+     * Changes the type of bean in this spot and updates the payouts for a harvest
+     */
     public void setType(int cardVal) {
         this.cardVal = cardVal;
-
         switch(cardVal) {
             case 0:
                 setCoins(2,4,5,6);
@@ -80,29 +88,33 @@ public class Spot {
         }
     }
 
-    public int getType() {
-        return cardVal;
+    /*
+     * Sets thresholds for payouts
+     */
+    private void setCoins(int coins1, int coins2, int coins3, int coins4) {
+        this.coins1 = coins1;
+        this.coins2 = coins2;
+        this.coins3 = coins3;
+        this.coins4 = coins4;
     }
 
-    public int getCards() {
-        return cards;
+    /*
+     * Tells if a non-matching card type can be planted here
+     */
+    public boolean isOpen() {
+        return cards == 0;
     }
 
+    /*
+     * Plants a card in this spot
+     */
     public void addCard() {
         cards++;
     }
 
-    public void render(SpriteBatch batch) {
-        if(cardVal != -1) {
-            batch.begin();
-            batch.enableBlending();
-            for (int i = 0; i < cards; i++) {
-                batch.draw(Assets.beans[cardVal], x, 390 - 30 * i, Settings.CARD_WIDTH, Settings.CARD_HEIGHT);
-            }
-            batch.end();
-        }
-    }
-
+    /*
+     * Harvests this spot, clearing its cards and returning how many coins were gained
+     */
     public int harvest() {
         int value = 0;
         if(cards >= coins1) {
@@ -117,5 +129,4 @@ public class Spot {
         cards = 0;
         return value;
     }
-
 }

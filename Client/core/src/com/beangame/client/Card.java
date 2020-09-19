@@ -2,7 +2,7 @@ package com.beangame.client;
 
 import com.badlogic.gdx.graphics.Texture;
 
-/* Represents a card only when it is in this player's hand.
+/* Represents a card
  * A card only has a texture to indicate its type and is never updated.
  */
 public class Card {

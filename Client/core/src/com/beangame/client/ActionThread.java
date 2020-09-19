@@ -40,7 +40,7 @@ public class ActionThread extends Thread {
                             break;
                         case 2000:
                             if (client.playerNumber == Integer.parseInt(text.substring(4, 5))) {
-                                client.getPlayer().addCard(Integer.parseInt(text.substring(5)));
+                                client.getPlayer().drawCard(Integer.parseInt(text.substring(5)));
                             } else {
 
                             }
@@ -62,11 +62,11 @@ public class ActionThread extends Thread {
                             }
                             break;
                         case 3005:
-                            client.flipCard(text.substring(4));
+                            client.getPlayer().addToFlipped(Integer.parseInt(text.substring(4)));
                             break;
                         case 3006:
                             if (!(client.currentTurn == client.playerNumber)) {
-                                client.hideFlipped(text.substring(4));
+                                client.getPlayer().hideFlipped(Integer.parseInt(text.substring(4)));
                             }
                             break;
                         case 3009:
@@ -112,7 +112,6 @@ public class ActionThread extends Thread {
     public void queueAction(String action) {
         actions.add(new String(action));
         System.out.println("Queued " + action);
-        System.out.println("Queued actions: " + actions.size());
     }
 
 }

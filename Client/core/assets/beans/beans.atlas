@@ -1,0 +1,82 @@
+beans.png
+size: 1854, 960
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+black-eyed_bean
+  rotate: false
+  xy: 0, 0
+  size: 309, 480
+  orig: 309, 480
+  offset: 0, 0
+  index: -1
+blue_bean
+  rotate: false
+  xy: 309, 0
+  size: 309, 480
+  orig: 309, 480
+  offset: 0, 0
+  index: -1
+chili_bean
+  rotate: false
+  xy: 618, 0
+  size: 309, 480
+  orig: 309, 480
+  offset: 0, 0
+  index: -1
+cocoa_bean
+  rotate: false
+  xy: 927, 0
+  size: 309, 480
+  orig: 309, 480
+  offset: 0, 0
+  index: -1
+coffee_bean
+  rotate: false
+  xy: 1236, 0
+  size: 309, 480
+  orig: 309, 480
+  offset: 0, 0
+  index: -1
+garden_bean
+  rotate: false
+  xy: 1545, 0
+  size: 309, 480
+  orig: 309, 480
+  offset: 0, 0
+  index: -1
+green_bean
+  rotate: false
+  xy: 0, 480
+  size: 309, 480
+  orig: 309, 480
+  offset: 0, 0
+  index: -1
+red_bean
+  rotate: false
+  xy: 309, 480
+  size: 309, 480
+  orig: 309, 480
+  offset: 0, 0
+  index: -1
+soy_bean
+  rotate: false
+  xy: 618, 480
+  size: 309, 480
+  orig: 309, 480
+  offset: 0, 0
+  index: -1
+stink_bean
+  rotate: false
+  xy: 927, 480
+  size: 309, 480
+  orig: 309, 480
+  offset: 0, 0
+  index: -1
+wax_bean
+  rotate: false
+  xy: 1236, 480
+  size: 309, 480
+  orig: 309, 480
+  offset: 0, 0
+  index: -1

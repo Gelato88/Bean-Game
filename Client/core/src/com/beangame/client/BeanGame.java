@@ -4,9 +4,11 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -47,7 +49,6 @@ public class BeanGame extends ApplicationAdapter {
 	private InputMultiplexer inputMultiplexer;
 
 	private Button connect;
-	private Button tradeButton;
 	private Button startGame;
 
 	private ArrayList<Opponent> opponents;
@@ -74,10 +75,12 @@ public class BeanGame extends ApplicationAdapter {
 	public void create () {
 
 		Assets.loadTextures();
+		generateElements();
 
 		font = new BitmapFont();
 		layout = new GlyphLayout();
 		batch = new SpriteBatch();
+
 		setupStage = new Stage();
 		introStage = new Stage();
 		endStage = new Stage();
@@ -100,46 +103,50 @@ public class BeanGame extends ApplicationAdapter {
 		currentTurn = 0;
 		playerNumber = 0;
 
-		ipInput = new TextField("", Assets.textFieldSkin);
-		ipInput.setMessageText("Enter Host IP");
-		ipInput.setSize(480, 60);
-		ipInput.setPosition(Settings.RES_WIDTH/2 - ipInput.getWidth()/2, 300);
-		ipInput.setAlignment(Align.center);
+		inputMultiplexer.addProcessor(player.getStage());
+		inputMultiplexer.addProcessor(trade.getStage());
+		inputMultiplexer.addProcessor(tradeOffer.getStage());
+		inputMultiplexer.addProcessor(player.getTradedHand().getStage());
+		inputMultiplexer.addProcessor(stage);
+		Gdx.input.setInputProcessor(setupStage);
+}
+
+	/*
+	 * Creates buttons and text fields
+	 */
+	private void generateElements() {
 
 		nameInput = new TextField("", Assets.textFieldSkin);
+		ipInput = new TextField("", Assets.textFieldSkin);
+
 		nameInput.setMessageText("Enter Name");
+		ipInput.setMessageText("Enter Host IP");
+
 		nameInput.setSize(480, 60);
+		ipInput.setSize(480, 60);
+
 		nameInput.setPosition(Settings.RES_WIDTH/2 - nameInput.getWidth()/2, 380);
+		ipInput.setPosition(Settings.RES_WIDTH/2 - ipInput.getWidth()/2, 300);
+
 		nameInput.setAlignment(Align.center);
+		ipInput.setAlignment(Align.center);
+
 
 		connect = new Button(Assets.buttonSkin, "connect");
+		startGame = new Button(Assets.buttonSkin, "send");
+
 		connect.setSize(100, 50);
+		startGame.setSize(80, 80);
+
 		connect.setPosition(Settings.RES_WIDTH/2 - connect.getWidth()/2, 200);
+		startGame.setPosition(Settings.RES_WIDTH - 130, Settings.RES_HEIGHT - 130);
+
 		connect.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
 				attemptConnection();
 			}
 		});
-
-		setupStage.addActor(ipInput);
-		setupStage.addActor(nameInput);
-		setupStage.addActor(connect);
-
-		tradeButton = new Button(Assets.buttonSkin, "trade");
-		tradeButton.setSize(100, 100);
-		tradeButton.setPosition(50, 50);
-		tradeButton.addListener(new ClickListener() {
-		    @Override
-            public void clicked(InputEvent e, float x, float y) {
-		        trade.resetValues();
-		    	trading = true;
-            }
-        });
-		hideButton(tradeButton);
-		startGame = new Button(Assets.buttonSkin, "send");
-		startGame.setSize(80, 80);
-		startGame.setPosition(Settings.RES_WIDTH - 130, Settings.RES_HEIGHT - 130);
 		startGame.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
@@ -147,16 +154,10 @@ public class BeanGame extends ApplicationAdapter {
 			}
 		});
 
-		stage.addActor(tradeButton);
+		setupStage.addActor(ipInput);
+		setupStage.addActor(nameInput);
+		setupStage.addActor(connect);
 		introStage.addActor(startGame);
-
-		inputMultiplexer.addProcessor(player.getStage());
-		inputMultiplexer.addProcessor(trade.getStage());
-		inputMultiplexer.addProcessor(tradeOffer.getStage());
-		inputMultiplexer.addProcessor(player.getTradedHand().getStage());
-		inputMultiplexer.addProcessor(stage);
-		Gdx.input.setInputProcessor(setupStage);
-
 	}
 
 	@Override
@@ -165,8 +166,14 @@ public class BeanGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		OrthographicCamera camera = new OrthographicCamera();
+		camera.setToOrtho(false, Settings.RES_WIDTH, Settings.RES_HEIGHT);
+		Vector3 mousePos3 = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0f));
+		float mouseX = mousePos3.x;
+		float mouseY = mousePos3.y;
+
 		switch(gameStatus) {
-            case 0:
+            case 0: //setup screen
                 batch.begin();
                 batch.enableBlending();
                 layout.setText(font, "https://github.com/Gelato88/Bean-Game");
@@ -179,14 +186,14 @@ public class BeanGame extends ApplicationAdapter {
                 setupStage.draw();
                 setupStage.act();
                 break;
-			case 3:
+			case 3: //game over screen
 				batch.begin();
 				batch.enableBlending();
 				layout.setText(font, "Game Over!");
 				font.draw(batch, layout, Settings.RES_WIDTH-layout.width/2, Settings.RES_HEIGHT-100);
 				for(int i = 0; i < scores.length; i++) {
 					layout.setText(font, names[i] + ":   " + scores[i]);
-					font.draw(batch, layout, Settings.RES_WIDTH - layout.width/2, Settings.RES_HEIGHT - 300 - 50 * i);
+					font.draw(batch, layout, Settings.RES_WIDTH - layout.width/2, Settings.RES_HEIGHT - 300 - 30 * i);
 				}
 				batch.end();
 				break;
@@ -214,15 +221,15 @@ public class BeanGame extends ApplicationAdapter {
                     stage.draw();
                     stage.act();
 
-                    player.render(batch);
+                    player.render(batch, mouseX, mouseY);
                     for (Opponent o : opponents) {
-                        o.render(batch);
+                        o.render(batch, mouseX, mouseY);
                     }
                     if (trading) {
-                        trade.render(batch);
+                        trade.render(batch, mouseX, mouseY);
                     }
                     if(showTradeOffer) {
-                        tradeOffer.render(batch);
+                        tradeOffer.render(batch, mouseX, mouseY);
                     }
                 } else {
                     batch.begin();
@@ -238,24 +245,36 @@ public class BeanGame extends ApplicationAdapter {
                 break;
         }
 	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		Assets.disposeAll();
+
+	public ArrayList<Opponent> getOpponents() {
+		return opponents;
 	}
 
-	@Override
-	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
-		player.getStage().getViewport().update(width, height, true);
-		player.getTradedHand().getStage().getViewport().update(width, height, true);
-		trade.getStage().getViewport().update(width, height, true);
-		tradeOffer.getStage().getViewport().update(width, height, true);
-		setupStage.getViewport().update(width, height, true);
-		introStage.getViewport().update(width, height, true);
+	public Player getPlayer() {
+		return player;
 	}
 
+	public Trade getTrade() {
+		return trade;
+	}
+
+	public void setPlayerCount(int count) {
+		connected = count;
+	}
+
+	public void setPlayerNumber(int num) {
+		playerNumber = num;
+		sendMessage(1003, ""+playerNumber+name);
+	}
+
+	public void setCurrentTurn(int player) {
+		currentTurn = player;
+	}
+
+	/*
+	 * Attempts to connect this client to a server
+	 * If successful, creates a terminal and goes to the waiting screen
+	 */
 	public void attemptConnection() {
 		Settings.IP = ipInput.getText();
 		name = nameInput.getText();
@@ -267,8 +286,10 @@ public class BeanGame extends ApplicationAdapter {
 			writer = new PrintWriter(output, true);
 			inputThread = new InputThread(s, this, actionThread);
 			inputThread.start();
-			terminal = new Terminal(s, this);
-			terminal.start();
+			if(Settings.DEV_MODE) {
+				terminal = new Terminal(this);
+				terminal.start();
+			}
 			gameStatus = 1;
 			Gdx.input.setInputProcessor(introStage);
 		} catch(UnknownHostException e) {
@@ -282,48 +303,14 @@ public class BeanGame extends ApplicationAdapter {
 	 * Sends a message to the server
 	 */
 	public void sendMessage(int code, String str) {
-		wait(20);
 		writer.println("" + code + str);
 	}
 
+	/*
+	 * Sends a message to the server
+	 */
 	public void sendMessage(String str) {
-		wait(20);
 		writer.println(str);
-	}
-
-	public void hideButton(Button button) {
-		button.setVisible(false);
-		button.setDisabled(true);
-	}
-
-	public void showButton(Button button) {
-		button.setVisible(true);
-		button.setDisabled(false);
-	}
-
-	public ArrayList<Opponent> getOpponents() {
-	    return opponents;
-    }
-
-    public Player getPlayer() {
-	    return player;
-    }
-
-    public Trade getTrade() {
-		return trade;
-	}
-
-    public void setPlayerCount(int count) {
-		connected = count;
-	}
-
-	public void setPlayerNumber(int num) {
-		playerNumber = num;
-		sendMessage(1003, ""+playerNumber+name);
-	}
-
-	public void setCurrentTurn(int player) {
-		currentTurn = player;
 	}
 
 	/*
@@ -339,34 +326,6 @@ public class BeanGame extends ApplicationAdapter {
 	public void startGame() {
 		gameStarted = true;
 		Gdx.input.setInputProcessor(inputMultiplexer);
-	}
-
-	public void endGame() {
-		names = new String[opponents.size()+1];
-		scores = new int[opponents.size()+1];
-		for(int i = 0; i < opponents.size(); i++) {
-			names[i] = opponents.get(i).getName();
-			scores[i] = opponents.get(i).getCoins();
-		}
-		names[names.length-1] = "Player " + playerNumber;
-		scores[scores.length-1] = player.getCoins();
-		for(int i = 0; i < scores.length-1; i++) {
-			int max = scores[i];
-			int maxInd = i;
-			for(int j = i+1; j < scores.length; j++) {
-				if(scores[j] > scores[i]) {
-					max = scores[j];
-					maxInd = j;
-				}
-			}
-			int tempScore = scores[i];
-			scores[i] = scores[maxInd];
-			scores[maxInd] = tempScore;
-			String tempName = names[i];
-			names[i] = names[maxInd];
-			names[maxInd] = tempName;
-		}
-		gameStatus = 3;
 	}
 
 	/*
@@ -391,6 +350,9 @@ public class BeanGame extends ApplicationAdapter {
 		opponentsGenerated = true;
 	}
 
+	/*
+	 * Sets and opponent's name
+	 */
 	public void setOpponentName(String info) {
 		int opponentNumber = Integer.parseInt(info.substring(0,1));
 		String name = info.substring(1);
@@ -398,6 +360,35 @@ public class BeanGame extends ApplicationAdapter {
 			opponentNumber--;
 		}
 		opponents.get(opponentNumber-1).setName(name);
+	}
+
+	/*
+	 * Ends the game and sorts the players by score
+	 */
+	public void endGame() {
+		names = new String[opponents.size()+1];
+		scores = new int[opponents.size()+1];
+		for(int i = 0; i < opponents.size(); i++) {
+			names[i] = opponents.get(i).getName();
+			scores[i] = opponents.get(i).getCoins();
+		}
+		names[names.length-1] = "Player " + playerNumber;
+		scores[scores.length-1] = player.getCoins();
+		for(int i = 0; i < scores.length-1; i++) {
+			int maxInd = i;
+			for(int j = i+1; j < scores.length; j++) {
+				if(scores[j] > scores[i]) {
+					maxInd = j;
+				}
+			}
+			int tempScore = scores[i];
+			scores[i] = scores[maxInd];
+			scores[maxInd] = tempScore;
+			String tempName = names[i];
+			names[i] = names[maxInd];
+			names[maxInd] = tempName;
+		}
+		gameStatus = 3;
 	}
 
 	/*
@@ -412,24 +403,22 @@ public class BeanGame extends ApplicationAdapter {
 	 * Ends turn
 	 */
 	public void endTurn() {
-		hideButton(tradeButton);
 		turn = false;
 		sendMessage(3001, "");
 	}
 
-	public void showTradeButton() {
-		showButton(tradeButton);
-	}
-
+	/*
+	 * Shows a trade request
+	 */
 	public void showTrade(String info) {
+		int sender = Integer.parseInt(info.substring(0,1));
 		int players = Integer.parseInt(info.substring(1,2));
 		int num;
-		if(Integer.parseInt(info.substring(0,1)) < playerNumber) {
+		if(sender < playerNumber) {
 			num = playerNumber-1;
 		} else {
 			num = playerNumber;
 		}
-
 		if(Integer.parseInt(info.substring(num+1, num+2)) == 1) {
 			int[] offered = new int[Assets.beans.length];
 			int[] requested = new int[Assets.beans.length];
@@ -443,6 +432,14 @@ public class BeanGame extends ApplicationAdapter {
 			tradeOffer.setValues(requested, offered, actives);
 			showTradeOffer = true;
 		}
+	}
+
+	/*
+	 * Opens the trade menu
+	 */
+	public void openTrade() {
+		trade.resetValues();
+		trading = true;
 	}
 
 	/*
@@ -494,20 +491,21 @@ public class BeanGame extends ApplicationAdapter {
 		o.setCoins(coins);
 	}
 
-	public void flipCard(String info) {
-		player.addToActive(Integer.parseInt(info));
+	@Override
+	public void resize(int width, int height) {
+		stage.getViewport().update(width, height, true);
+		player.getStage().getViewport().update(width, height, true);
+		player.getTradedHand().getStage().getViewport().update(width, height, true);
+		trade.getStage().getViewport().update(width, height, true);
+		tradeOffer.getStage().getViewport().update(width, height, true);
+		setupStage.getViewport().update(width, height, true);
+		introStage.getViewport().update(width, height, true);
 	}
 
-	public void hideFlipped(String info) {
-		player.hideFlipped(Integer.parseInt(info));
-	}
-
-	public static void wait(int ms) {
-		try {
-			Thread.sleep(ms);
-		} catch(InterruptedException e) {
-
-		}
+	@Override
+	public void dispose () {
+		batch.dispose();
+		Assets.disposeAll();
 	}
 
 }

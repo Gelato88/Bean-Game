@@ -1,32 +1,27 @@
 package com.beangame.client;
 
-import java.net.Socket;
 import java.util.Scanner;
 
+/* Available when in dev mode. Allows sending messages to the server.
+ *
+ */
 public class Terminal extends Thread {
 
-    Socket socket;
-    BeanGame client;
+    private BeanGame client;
+    private Scanner scanner;
 
-    Scanner scanner;
-
-
-    public Terminal(Socket socket, BeanGame client) {
-        this.socket = socket;
+    public Terminal(BeanGame client) {
         this.client = client;
-
         scanner = new Scanner(System.in);
     }
 
+    /* Waits for input and sends to the server
+     *
+     */
     public void run() {
         while(true) {
             String s = scanner.nextLine();
             client.sendMessage(s);
         }
     }
-
-
-
-
-
 }

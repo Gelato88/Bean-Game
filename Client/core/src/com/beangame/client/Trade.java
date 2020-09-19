@@ -1,6 +1,5 @@
 package com.beangame.client;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -15,13 +14,12 @@ import java.util.ArrayList;
 
 public class Trade {
 
-
     private BitmapFont font;
     private GlyphLayout layout;
     private Stage stage;
 
-    private Button active1;
-    private Button active2;
+    private Button flipped1;
+    private Button flipped2;
     private Button close;
     private Button send;
     private Button[] buttons;
@@ -57,7 +55,19 @@ public class Trade {
         activeSelected[0] = false;
         activeSelected[1] = false;
 
-        for(int i = 0; i < Assets.beans.length; i++) { //getting
+        generateElements();
+
+        stage.addActor(flipped1);
+        stage.addActor(flipped2);
+        stage.addActor(close);
+        stage.addActor(send);
+
+        hideButton(flipped1);
+        hideButton(flipped2);
+    }
+
+    private void generateElements() {
+        for(int i = 0; i < Assets.beans.length; i++) { //buttons for requesting cards
             counts2[i] = 0;
             buttons2[2*i] = new Button(Assets.buttonSkin, "minus");
             buttons2[2*i+1] = new Button(Assets.buttonSkin, "plus");
@@ -85,53 +95,103 @@ public class Trade {
             stage.addActor(buttons2[2*i+1]);
         }
 
-        active1 = new Button(Assets.buttonSkin, "check");
-        active2 = new Button(Assets.buttonSkin, "check");
-        active1.setSize(20, 20);
-        active2.setSize(20, 20);
-        active1.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 132, 446);
-        active2.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 72, 446);
-        active1.addListener(new ClickListener() {
+        flipped1 = new Button(Assets.buttonSkin, "check");
+        flipped2 = new Button(Assets.buttonSkin, "check");
+        close = new Button(Assets.buttonSkin, "close");
+        send = new Button(Assets.buttonSkin, "send");
+
+        flipped1.setSize(20, 20);
+        flipped2.setSize(20, 20);
+        close.setSize(20, 20);
+        send.setSize(50, 50);
+
+        flipped1.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 132, 446);
+        flipped2.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 72, 446);
+        close.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 50, Settings.RES_HEIGHT/2 + 50 + Settings.TRADE_BOX_HEIGHT/2 - 50);
+        send.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 70, Settings.RES_HEIGHT/2 + 50 - Settings.TRADE_BOX_HEIGHT/2 + 20);
+
+        flipped1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 activeSelected[0] = !activeSelected[0];
             }
         });
-        active2.addListener(new ClickListener() {
+        flipped2.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 activeSelected[1] = !activeSelected[1];
             }
         });
-        stage.addActor(active1);
-        stage.addActor(active2);
-
-        close = new Button(Assets.buttonSkin, "close");
-        close.setSize(20, 20);
-        close.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 50, Settings.RES_HEIGHT/2 + 50 + Settings.TRADE_BOX_HEIGHT/2 - 50);
         close.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 closeTrade();
             }
         });
-        send = new Button(Assets.buttonSkin, "send");
-        send.setSize(50, 50);
-        send.setPosition(Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 70, Settings.RES_HEIGHT/2 + 50 - Settings.TRADE_BOX_HEIGHT/2 + 20);
         send.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 sendTrade();
             }
         });
-
-        stage.addActor(close);
-        stage.addActor(send);
-
-        hideButton(active1);
-        hideButton(active2);
     }
 
+    /*
+     * Generates checks to allow the trader to select who to send the offer to
+     */
+    public void generatePlayerChecks() {
+        active = new boolean[game.getOpponents().size()];
+        checks = new Button[game.getOpponents().size()];
+        for(int i = 0; i < game.getOpponents().size(); i++) {
+            active[i] = false;
+            checks[i] = new Button(Assets.buttonSkin, "check");
+            checks[i].setSize(20, 20);
+            checks[i].setPosition(960,350 - 25 * i);
+            checks[i].addListener(new TradeButtonListener(i) {
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+                    active[i] = !active[i];
+                }
+            });
+            stage.addActor(checks[i]);
+        }
+    }
+
+    public void render(SpriteBatch batch, float mouseX, float mouseY) {
+        batch.begin();
+        batch.enableBlending();
+        batch.draw(Assets.tradeBackground, Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2, Settings.RES_HEIGHT/2 - Settings.TRADE_BOX_HEIGHT/2 + 50, Settings.TRADE_BOX_WIDTH, Settings.TRADE_BOX_HEIGHT);
+        hand = game.getPlayer().getHand().getCards();
+        for(int i = 0; i < hand.size(); i++) {
+            batch.draw(Assets.beans[hand.get(i).getCardVal()], Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 30 + 60*i, 470, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
+        }
+
+        for(int i = 0; i < Assets.beans.length; i++) {
+            layout.setText(font, "" + counts2[i]);
+            font.draw(batch, layout, Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 54 + 60*i - layout.width/2, 360);
+            batch.draw(Assets.beans[i], Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 30 + 60*i, 260, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
+        }
+        for(int i = 0; i < game.getOpponents().size(); i++) {
+            layout.setText(font, game.getOpponents().get(i).getName());
+            font.draw(batch, layout, 990, 350 - 25 * i + 20 - layout.height/2);
+        }
+        for(int i = 0; i < game.getPlayer().getFlipped().length; i++) {
+            if(!(game.getPlayer().getFlipped()[i] == null)) {
+                batch.draw(game.getPlayer().getFlipped()[i].getTexture(), Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 30 - 60*(game.getPlayer().getFlipped().length-i), 470, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
+            }
+        }
+        batch.end();
+        stage.draw();
+        stage.act();
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    /*
+     * Clears all previously selected values when opening trade
+     */
     public void resetValues() {
         for(int i = 0; i < counts2.length; i++) {
             counts2[i] = 0;
@@ -139,21 +199,24 @@ public class Trade {
         for(int i = 0; i < activeSelected.length; i++) {
             activeSelected[i] = false;
         }
-        active1.setChecked(false);
-        active2.setChecked(false);
+        flipped1.setChecked(false);
+        flipped2.setChecked(false);
         for(int i = 0; i < checks.length; i++) {
             checks[i].setChecked(false);
             active[i] = false;
         }
-        if(game.getPlayer().getActive()[0] == null) {
-            hideButton(active1);
+        if(game.getPlayer().getFlipped()[0] == null) {
+            hideButton(flipped1);
         }
-        if(game.getPlayer().getActive()[1] == null) {
-            hideButton(active2);
+        if(game.getPlayer().getFlipped()[1] == null) {
+            hideButton(flipped2);
         }
         updateHand();
     }
 
+    /*
+     * Generates new checks to allow cards from hand to be selected
+     */
     public void updateHand() {
         if(!(offerChecks == null)) {
             for (int i = 0; i < offerChecks.length; i++) {
@@ -176,56 +239,11 @@ public class Trade {
             stage.addActor(b);
             offerChecks[i] = b;
         }
-
     }
 
-    public void render(SpriteBatch batch) {
-        batch.begin();
-        batch.enableBlending();
-        batch.draw(Assets.tradeBackground, Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2, Settings.RES_HEIGHT/2 - Settings.TRADE_BOX_HEIGHT/2 + 50, Settings.TRADE_BOX_WIDTH, Settings.TRADE_BOX_HEIGHT);
-
-        hand = game.getPlayer().getHand().getCards();
-        for(int i = 0; i < hand.size(); i++) {
-            batch.draw(Assets.beans[hand.get(i).getCardVal()], Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 30 + 60*i, 470, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
-        }
-
-        for(int i = 0; i < Assets.beans.length; i++) {
-            layout.setText(font, "" + counts2[i]);
-            font.draw(batch, layout, Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 54 + 60*i - layout.width/2, 360);
-            batch.draw(Assets.beans[i], Settings.RES_WIDTH/2 - Settings.TRADE_BOX_WIDTH/2 + 30 + 60*i, 260, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
-        }
-        for(int i = 0; i < game.getOpponents().size(); i++) {
-            layout.setText(font, game.getOpponents().get(i).getName());
-            font.draw(batch, layout, 990, 350 - 25 * i + 20 - layout.height/2);
-        }
-        for(int i = 0; i < game.getPlayer().getActive().length; i++) {
-            if(!(game.getPlayer().getActive()[i] == null)) {
-                batch.draw(game.getPlayer().getActive()[i].getTexture(), Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 30 - 60*(game.getPlayer().getActive().length-i), 470, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
-            }
-        }
-        batch.end();
-        stage.draw();
-        stage.act();
-    }
-
-    public void generatePlayerChecks() {
-        active = new boolean[game.getOpponents().size()];
-        checks = new Button[game.getOpponents().size()];
-        for(int i = 0; i < game.getOpponents().size(); i++) {
-            active[i] = false;
-            checks[i] = new Button(Assets.buttonSkin, "check");
-            checks[i].setSize(20, 20);
-            checks[i].setPosition(960,350 - 25 * i);
-            checks[i].addListener(new TradeButtonListener(i) {
-                @Override
-                public void clicked(InputEvent e, float x, float y) {
-                    active[i] = !active[i];
-                }
-            });
-            stage.addActor(checks[i]);
-        }
-    }
-
+    /*
+     * Changes how many trade responses are being waited for
+     */
     public void incrementWaiting(int delta) {
         waiting += delta;
         if(waiting == 0) {
@@ -234,6 +252,9 @@ public class Trade {
         }
     }
 
+    /*
+     * Sends the trade to selected players
+     */
     public void sendTrade() {
         waiting = 0;
         for(int i = 0; i < counts.length; i++) {
@@ -270,6 +291,9 @@ public class Trade {
         game.sendMessage(4000, info);
     }
 
+    /*
+     * Handles and accepted trade
+     */
     public void confirm() {
         waiting = 0;
         game.trading = false;
@@ -286,19 +310,29 @@ public class Trade {
         }
     }
 
+    /*
+     * Closes the trade window
+     */
+    public void closeTrade() {
+        if(waiting == 0) {
+            game.trading = false;
+        }
+    }
+
+
     public void hideCheck(int index) {
         if(index == 0) {
-            hideButton(active1);
+            hideButton(flipped1);
         } else {
-            hideButton(active2);
+            hideButton(flipped2);
         }
     }
 
     public void showCheck(int index) {
         if(index == 0) {
-            showButton(active1);
+            showButton(flipped1);
         } else {
-            showButton(active2);
+            showButton(flipped2);
         }
     }
 
@@ -311,15 +345,4 @@ public class Trade {
         button.setVisible(true);
         button.setDisabled(false);
     }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void closeTrade() {
-        if(waiting == 0) {
-            game.trading = false;
-        }
-    }
-
 }

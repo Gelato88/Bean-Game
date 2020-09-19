@@ -181,21 +181,21 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">buttons/blank_clicked.png</key>
-            <key type="filename">buttons/blank_hover.png</key>
-            <key type="filename">buttons/blank_unclicked.png</key>
-            <key type="filename">buttons/check_clicked.png</key>
-            <key type="filename">buttons/check_hover.png</key>
-            <key type="filename">buttons/check_unclicked.png</key>
-            <key type="filename">buttons/close_clicked.png</key>
-            <key type="filename">buttons/close_hover.png</key>
-            <key type="filename">buttons/close_unclicked.png</key>
-            <key type="filename">buttons/minus_clicked.png</key>
-            <key type="filename">buttons/minus_hover.png</key>
-            <key type="filename">buttons/minus_unclicked.png</key>
-            <key type="filename">buttons/plus_clicked.png</key>
-            <key type="filename">buttons/plus_hover.png</key>
-            <key type="filename">buttons/plus_unclicked.png</key>
+            <key type="filename">textures/blank_clicked.png</key>
+            <key type="filename">textures/blank_hover.png</key>
+            <key type="filename">textures/blank_unclicked.png</key>
+            <key type="filename">textures/check_clicked.png</key>
+            <key type="filename">textures/check_hover.png</key>
+            <key type="filename">textures/check_unclicked.png</key>
+            <key type="filename">textures/close_clicked.png</key>
+            <key type="filename">textures/close_hover.png</key>
+            <key type="filename">textures/close_unclicked.png</key>
+            <key type="filename">textures/minus_clicked.png</key>
+            <key type="filename">textures/minus_hover.png</key>
+            <key type="filename">textures/minus_unclicked.png</key>
+            <key type="filename">textures/plus_clicked.png</key>
+            <key type="filename">textures/plus_hover.png</key>
+            <key type="filename">textures/plus_unclicked.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -208,22 +208,9 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">buttons/button.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>25,25,50,50</rect>
-                <key>scale9Paddings</key>
-                <rect>25,25,50,50</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">buttons/connect_clicked.png</key>
-            <key type="filename">buttons/connect_hover.png</key>
-            <key type="filename">buttons/connect_unclicked.png</key>
+            <key type="filename">textures/connect_clicked.png</key>
+            <key type="filename">textures/connect_hover.png</key>
+            <key type="filename">textures/connect_unclicked.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -236,21 +223,15 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">buttons/end_turn_clicked.png</key>
-            <key type="filename">buttons/end_turn_hover.png</key>
-            <key type="filename">buttons/end_turn_unclicked.png</key>
-            <key type="filename">buttons/enter_clicked.png</key>
-            <key type="filename">buttons/enter_hover.png</key>
-            <key type="filename">buttons/enter_unclicked.png</key>
-            <key type="filename">buttons/flip_clicked.png</key>
-            <key type="filename">buttons/flip_hover.png</key>
-            <key type="filename">buttons/flip_unclicked.png</key>
-            <key type="filename">buttons/harvest_clicked.png</key>
-            <key type="filename">buttons/harvest_hover.png</key>
-            <key type="filename">buttons/harvest_unclicked.png</key>
-            <key type="filename">buttons/trade_clicked.png</key>
-            <key type="filename">buttons/trade_hover.png</key>
-            <key type="filename">buttons/trade_unclicked.png</key>
+            <key type="filename">textures/end_turn_clicked.png</key>
+            <key type="filename">textures/end_turn_hover.png</key>
+            <key type="filename">textures/end_turn_unclicked.png</key>
+            <key type="filename">textures/enter_clicked.png</key>
+            <key type="filename">textures/enter_hover.png</key>
+            <key type="filename">textures/enter_unclicked.png</key>
+            <key type="filename">textures/trade_clicked.png</key>
+            <key type="filename">textures/trade_hover.png</key>
+            <key type="filename">textures/trade_unclicked.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -263,25 +244,43 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">buttons/plant_clicked.png</key>
-            <key type="filename">buttons/plant_hover.png</key>
-            <key type="filename">buttons/plant_unclicked.png</key>
+            <key type="filename">textures/flip_clicked.png</key>
+            <key type="filename">textures/flip_hover.png</key>
+            <key type="filename">textures/flip_unclicked.png</key>
+            <key type="filename">textures/harvest_clicked.png</key>
+            <key type="filename">textures/harvest_hover.png</key>
+            <key type="filename">textures/plant_clicked.png</key>
+            <key type="filename">textures/plant_hover.png</key>
+            <key type="filename">textures/plant_unclicked.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>64,96,128,192</rect>
+                <rect>30,30,60,60</rect>
                 <key>scale9Paddings</key>
-                <rect>64,96,128,192</rect>
+                <rect>30,30,60,60</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">textures/harvest_unclicked.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,29,57,57</rect>
+                <key>scale9Paddings</key>
+                <rect>29,29,57,57</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>buttons</filename>
+            <filename>textures</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

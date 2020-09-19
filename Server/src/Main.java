@@ -66,7 +66,7 @@ public class Main {
         for(Player p : players) {
             p.sendMessage(str);
         }
-        System.out.println("Sent:     " + str);
+            System.out.println("Sent:     " + str);
     }
 
     /* Updates player count for all connected clients
@@ -156,6 +156,7 @@ public class Main {
             deck[ind] = deck[i-1];
             deck[i-1] = temp;
         }
+        nextCardIndex = 0;
     }
 
     /* Deals a card to a player

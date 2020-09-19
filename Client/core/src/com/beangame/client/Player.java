@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
-/* The player class handles client-side information related to this player's gameplay.
+/* The player class handles game-side information related to this player's gameplay.
  *
  */
 public class Player {
@@ -19,17 +19,18 @@ public class Player {
     private GlyphLayout layout;
     private Stage stage;
 
-    private Button harvest1;
-    private Button harvest2;
     private Button plant;
     private Button plantFlipped1;
     private Button plantFlipped2;
-    private Button next;
+    private Button flip;
     private Button endTurn;
+    private Button trade;
+    private Button harvest1;
+    private Button harvest2;
 
-    private Card[] active;
+    private Card[] flipped;
 
-    private BeanGame client;
+    private BeanGame game;
     private Hand hand;
     private Spot spot1;
     private Spot spot2;
@@ -38,56 +39,69 @@ public class Player {
     private int actions;
     private int coins;
 
-    public Player(final BeanGame client) {
+    public Player(BeanGame game) {
+        this.game = game;
 
-        this.client = client;
+        generateElements();
 
         font = new BitmapFont();
         layout = new GlyphLayout();
         stage = new Stage();
 
-        active = new Card[2];
+        flipped = new Card[2];
 
         hand = new Hand();
         spot1 = new Spot(Settings.RES_WIDTH/2 - 100 - Settings.CARD_WIDTH/2, 1);
         spot2 = new Spot(Settings.RES_WIDTH/2 + 100 - Settings.CARD_WIDTH/2, 2);
-        tradedHand = new TradedHand(this, client);
+        tradedHand = new TradedHand(this, game);
 
         actions = 0;
 
-        harvest1 = new Button(Assets.buttonSkin, "harvest");
-        harvest2 = new Button(Assets.buttonSkin, "harvest");
-        harvest1.setSize(60,60);
-        harvest2.setSize(60,60);
-        harvest1.setPosition(Settings.RES_WIDTH/2-100 - harvest1.getWidth()/2, 640);
-        harvest2.setPosition(Settings.RES_WIDTH/2+100 - harvest1.getWidth()/2, 640);
-        harvest1.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent e, float x, float y) {
-                harvest(1);
-            }
-        });
-        harvest2.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent e, float x, float y) {
-                harvest(2);
-            }
-        });
+        stage.addActor(plant);
+        stage.addActor(plantFlipped1);
+        stage.addActor(plantFlipped2);
+        stage.addActor(flip);
+        stage.addActor(endTurn);
+        stage.addActor(trade);
+        stage.addActor(harvest1);
+        stage.addActor(harvest2);
+
+        hideButton(plant);
+        hideButton(plantFlipped1);
+        hideButton(plantFlipped2);
+        hideButton(flip);
+        hideButton(endTurn);
+        hideButton(trade);
+    }
+
+    private void generateElements() {
         plant = new Button(Assets.buttonSkin, "plant");
         plantFlipped1 = new Button(Assets.buttonSkin, "plant");
         plantFlipped2 = new Button(Assets.buttonSkin, "plant");
-        next = new Button(Assets.buttonSkin, "next");
+        flip = new Button(Assets.buttonSkin, "flip");
         endTurn = new Button(Assets.buttonSkin, "end_turn");
+        trade = new Button(Assets.buttonSkin, "trade");
+        harvest1 = new Button(Assets.buttonSkin, "harvest");
+        harvest2 = new Button(Assets.buttonSkin, "harvest");
+
         plant.setSize(60, 60);
         plantFlipped1.setSize(60, 60);
         plantFlipped2.setSize(60, 60);
-        next.setSize(100, 100);
+        flip.setSize(100, 100);
         endTurn.setSize(100, 100);
+        trade.setSize(100, 100);
+        harvest1.setSize(60,60);
+        harvest2.setSize(60,60);
+
         plant.setPosition(Settings.RES_WIDTH/2 + 350,100);
         plantFlipped1.setPosition(160, 300);
         plantFlipped2.setPosition(160, 480);
-        next.setPosition(Settings.RES_WIDTH - 150, 50);
+        flip.setPosition(Settings.RES_WIDTH - 150, 50);
         endTurn.setPosition(Settings.RES_WIDTH - 150, 50);
+        trade.setPosition(50, 50);
+        harvest1.setPosition(Settings.RES_WIDTH/2-100 - harvest1.getWidth()/2, 640);
+        harvest2.setPosition(Settings.RES_WIDTH/2+100 - harvest1.getWidth()/2, 640);
+
         plant.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -106,7 +120,7 @@ public class Player {
                 plantFromFlipped(1);
             }
         });
-        next.addListener(new ClickListener() {
+        flip.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 flip();
@@ -115,41 +129,44 @@ public class Player {
         endTurn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                if(actions < 2) {
-                    askToEndTurn();
-                }
+                askToEndTurn();
             }
         });
-
-        stage.addActor(harvest1);
-        stage.addActor(harvest2);
-        stage.addActor(plant);
-        stage.addActor(plantFlipped1);
-        stage.addActor(plantFlipped2);
-        stage.addActor(next);
-        stage.addActor(endTurn);
-
-        hideButton(plant);
-        hideButton(plantFlipped1);
-        hideButton(plantFlipped2);
-        hideButton(next);
-        hideButton(endTurn);
+        trade.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+                game.openTrade();
+            }
+        });
+        harvest1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+                harvest(1);
+            }
+        });
+        harvest2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+                harvest(2);
+            }
+        });
     }
 
-
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float mouseX, float mouseY) {
         drawMat(batch);
-        drawActive(batch);
+        drawFlipped(batch, mouseX, mouseY);
         stage.draw();
         stage.act();
-        spot1.render(batch);
-        spot2.render(batch);
-        tradedHand.render(batch);
-        hand.render(batch);
+        spot1.render(batch, mouseX, mouseY);
+        spot2.render(batch, mouseX, mouseY);
+        tradedHand.render(batch, mouseX, mouseY);
+        hand.render(batch, mouseX, mouseY);
     }
 
+    /*
+     * Draws static board features: mat and coins
+     */
     public void drawMat(SpriteBatch batch) {
-
         batch.begin();
         batch.enableBlending();
         batch.draw(Assets.coin, 50, Settings.RES_HEIGHT - 100, 50, 50);
@@ -161,61 +178,145 @@ public class Player {
 
     }
 
-    public void drawActive(SpriteBatch batch) {
+    /*
+     * Draws cards that have been flipped face up from the deck
+     */
+    public void drawFlipped(SpriteBatch batch, float mouseX, float mouseY) {
         batch.begin();
         batch.enableBlending();
-        for(int i = 0; i < active.length; i++) {
-            if(active[i] != null) {
-                batch.draw(active[i].getTexture(), 40, 240 + 180 * i, Settings.CARD_WIDTH * 0.8f, Settings.CARD_HEIGHT * 0.8f);
+        for(int i = 0; i < flipped.length; i++) {
+            if(flipped[i] != null) {
+                batch.draw(flipped[i].getTexture(), 40, 240 + 180 * i, Settings.CARD_WIDTH * 0.8f, Settings.CARD_HEIGHT * 0.8f);
             }
         }
         batch.end();
-
-    }
-
-    public void hideButton(Button button) {
-        button.setVisible(false);
-        button.setDisabled(true);
-    }
-
-    public void showButton(Button button) {
-        button.setVisible(true);
-        button.setDisabled(false);
     }
 
     public int getCoins() {
         return coins;
     }
 
-    public Card[] getActive() {
-        return active;
+    public Card[] getFlipped() {
+        return flipped;
     }
 
     public TradedHand getTradedHand() {
         return tradedHand;
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
+    public Hand getHand() {
+        return hand;
+    }
+
+    /*
+     * Hides a button
+     */
+    public void hideButton(Button button) {
+        button.setVisible(false);
+        button.setDisabled(true);
+    }
+
+    /*
+     * Shows a button
+     */
+    public void showButton(Button button) {
+        button.setVisible(true);
+        button.setDisabled(false);
+    }
+
+    /*
+     * Starts this player's turn
+     */
     public void startTurn() {
         actions = 2;
         showButton(plant);
+        showButton(harvest1);
+        showButton(harvest2);
     }
 
+    /*
+     * Attempts to end this player's turn
+     */
     public void askToEndTurn() {
-        if(active[0] == null && active[1] == null) {
-            client.sendMessage(3008, "");
-            client.wait(500);
+        if(actions < 2 && flipped[0] == null && flipped[1] == null) {
+            game.sendMessage(3008, "");
         }
     }
 
+    /*
+     * Ends this player's turn
+     */
     public void endTurn() {
         actions = 0;
-        hideButton(next);
+        hideButton(flip);
         hideButton(endTurn);
-        client.endTurn();
+        hideButton(trade);
+        game.endTurn();
     }
 
+    /*
+     * Adds a card to the hand
+     */
+    public void drawCard(int cardVal) {
+        hand.getCards().add(new Card(cardVal));
+        hand.incrementCard(cardVal, 1);
+    }
+
+    /*
+     * Sends to the server that the player is ready to flip cards from the deck
+     */
+    public void flip() {
+        hideButton(flip);
+        hideButton(plant);
+        showButton(endTurn);
+        showButton(trade);
+        game.sendMessage(3004, "");
+    }
+
+    /*
+     * Adds a card to the flipped up cards
+     */
+    public void addToFlipped(int cardVal) {
+        for(int i = 0; i < flipped.length; i++) {
+            if(flipped[i] == null) {
+                flipped[i] = new Card(cardVal);
+                if(game.currentTurn == game.playerNumber) {
+                    if (i == 0) {
+                        showButton(plantFlipped1);
+                        game.getTrade().showCheck(0);
+                    } else {
+                        showButton(plantFlipped2);
+                        game.getTrade().showCheck(1);
+                    }
+                }
+                return;
+            }
+        }
+        System.out.println("Could not find an open spot to add a flipped card");
+    }
+
+    /*
+     * Hides a card that was flipped from the deck
+     */
+    public void hideFlipped(int index) {
+        flipped[index] = null;
+        if(index == 0) {
+            hideButton(plantFlipped1);
+        } else if(index == 1) {
+            hideButton(plantFlipped2);
+        }
+        game.getTrade().hideCheck(index);
+    }
+
+    /*
+     * Plants top card of hand
+     */
     public void plantNext() {
-        if(client.currentTurn == client.playerNumber && actions > 0 && hand.getCards().size() > 0) {
+        if(game.currentTurn == game.playerNumber && actions > 0 && hand.getCards().size() > 0) {
             if(hand.getCards().get(0).getCardVal() == spot1.getType()) {
                 plantFromHand(spot1);
             } else if(hand.getCards().get(0).getCardVal() == spot2.getType()) {
@@ -228,29 +329,51 @@ public class Player {
         }
     }
 
+    /*
+     * Plants a card that has come from the hand
+     */
     public void plantFromHand(Spot spot) {
         plant(spot, hand.getCards().get(0).getCardVal());
         hand.getCards().remove(0);
         actions--;
         if(actions < 2) {
-            showButton(next);
-            client.showTradeButton();
+            showButton(flip);
         }
         if(actions == 0) {
             hideButton(plant);
         }
     }
 
+    /*
+     * Plants a card that has come from the traded hand
+     */
+    public boolean plantFromTradedHand(int cardVal) {
+        if(cardVal == spot1.getType()) {
+            return plant(spot1, cardVal);
+        } else if(cardVal == spot2.getType()) {
+            return plant(spot2, cardVal);
+        } else if(spot1.isOpen()) {
+            return plant(spot1, cardVal);
+        } else if(spot2.isOpen()) {
+            return plant(spot2, cardVal);
+        } else {
+            return false;
+        }
+    }
+
+    /*
+     * Plants a card that was flipped from the deck
+     */
     public void plantFromFlipped(int index) {
         boolean planted = false;
-        if(active[index].getCardVal() == spot1.getType()) {
-            planted  = plant(spot1, active[index].getCardVal());
-        } else if(active[index].getCardVal() == spot2.getType()) {
-            planted = plant(spot2, active[index].getCardVal());
+        if(flipped[index].getCardVal() == spot1.getType()) {
+            planted  = plant(spot1, flipped[index].getCardVal());
+        } else if(flipped[index].getCardVal() == spot2.getType()) {
+            planted = plant(spot2, flipped[index].getCardVal());
         } else if(spot1.isOpen()) {
-            planted = plant(spot1, active[index].getCardVal());
+            planted = plant(spot1, flipped[index].getCardVal());
         } else if(spot2.isOpen()) {
-            planted = plant(spot2, active[index].getCardVal());
+            planted = plant(spot2, flipped[index].getCardVal());
         }
         if(planted) {
             if(index == 0) {
@@ -258,45 +381,14 @@ public class Player {
             } else {
                 hideButton(plantFlipped2);
             }
-            active[index] = null;
-            client.sendMessage(3006, ""+index);
+            flipped[index] = null;
+            game.sendMessage(3006, ""+index);
         }
     }
 
-    public void hideFlipped(int index) {
-        active[index] = null;
-        if(index == 0) {
-            hideButton(plantFlipped1);
-        } else if(index == 1) {
-            hideButton(plantFlipped2);
-        }
-        client.getTrade().hideCheck(index);
-    }
-
-    public boolean plantFromTraded(int cardVal) {
-        String untruncCardVal;
-        if(cardVal < 10) {
-            untruncCardVal = "0"+cardVal;
-        } else {
-            untruncCardVal = ""+cardVal;
-        }
-        if(cardVal == spot1.getType()) {
-            client.sendMessage(3002,  ""+client.playerNumber+1+untruncCardVal+spot1.getCards());
-            return plant(spot1, cardVal);
-        } else if(cardVal == spot2.getType()) {
-            client.sendMessage(3002, ""+client.playerNumber+2+untruncCardVal+spot2.getCards());
-            return plant(spot2, cardVal);
-        } else if(spot1.isOpen()) {
-            client.sendMessage(3002, ""+client.playerNumber+1+untruncCardVal+spot1.getCards());
-            return plant(spot1, cardVal);
-        } else if(spot2.isOpen()) {
-            client.sendMessage(3002, ""+client.playerNumber+2+untruncCardVal+spot2.getCards());
-            return plant(spot2, cardVal);
-        } else {
-            return false;
-        }
-    }
-
+    /*
+     * Plants a card in a spot
+     */
     public boolean plant(Spot spot, int type) {
         spot.setType(type);
         spot.addCard();
@@ -311,23 +403,26 @@ public class Player {
         } else {
             cardInfo = cardInfo + spot.getCards();
         }
-        client.sendMessage(3002, "" + client.playerNumber + spot.getSpotNum() + cardInfo);
+        game.sendMessage(3002, "" + game.playerNumber + spot.getSpotNum() + cardInfo);
         return true;
     }
 
+    /*
+     * Harvests a spot
+     */
     public void harvest(int spot) {
-        if(client.currentTurn == client.playerNumber || tradedHand.getSize() > 0) {
+        if(game.currentTurn == game.playerNumber || tradedHand.getSize() > 0) {
             int card;
             int num;
             int profit;
             if (spot == 1 && (spot1.getCards() > 1 || spot2.getCards() < 2)) {
-                profit = spot1.harvest();
                 card = spot1.getType();
                 num = spot1.getCards();
+                profit = spot1.harvest();
             } else if(spot == 2 && (spot2.getCards() > 1 || spot1.getCards() < 2)) {
-                profit = spot2.harvest();
                 card = spot2.getType();
                 num = spot2.getCards();
+                profit = spot2.harvest();
             } else {
                 return;
             }
@@ -339,46 +434,8 @@ public class Player {
             } else {
                 info = "" + card + num;
             }
-            client.sendMessage(3003, "" + client.playerNumber + spot + coins);
-            client.sendMessage(3007, info);
+            game.sendMessage(3003, "" + game.playerNumber + spot + coins);
+            game.sendMessage(3007, info);
         }
-    }
-
-    public void flip() {
-        hideButton(next);
-        hideButton(plant);
-        showButton(endTurn);
-        client.sendMessage(3004, "");
-    }
-
-    public void addCard(int cardVal) {
-        hand.getCards().add(new Card(cardVal));
-        hand.incrementCard(cardVal, 1);
-    }
-
-    public void addToActive(int cardVal) {
-        for(int i = 0; i < active.length; i++) {
-            if(active[i] == null) {
-                active[i] = new Card(cardVal);
-                if(client.currentTurn == client.playerNumber) {
-                    if (i == 0) {
-                        showButton(plantFlipped1);
-                        client.getTrade().showCheck(0);
-                    } else {
-                        showButton(plantFlipped2);
-                        client.getTrade().showCheck(1);
-                    }
-                }
-                return;
-            }
-        }
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public Hand getHand() {
-        return hand;
     }
 }

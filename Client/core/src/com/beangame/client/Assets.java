@@ -37,7 +37,7 @@ public class Assets {
     }
 
     public static void loadTextures() {
-        buttonSkin = new Skin(Gdx.files.internal("buttons.json"));
+        buttonSkin = new Skin(Gdx.files.internal("buttons/buttons.json"));
         textFieldSkin = new Skin(Gdx.files.internal("textFields/textFields.json"));
         start = load("start");
         background = load("background");

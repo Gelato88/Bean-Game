@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class Hand {
 
     private ArrayList<Card> cards;
-
     private int[] held;
 
     public Hand() {
@@ -21,31 +20,7 @@ public class Hand {
         cards = new ArrayList<>();
     }
 
-    public ArrayList<Card> getCards() {
-        return cards;
-    }
-
-    public void incrementCard(int index, int delta) {
-        held[index] += delta;
-    }
-
-    public int getCardNum(int index) {
-        return held[index];
-    }
-
-    public boolean removeCardType(int cardVal) {
-        for(int i = 0; i < cards.size(); i++) {
-            if(cards.get(i).getCardVal() == cardVal) {
-                cards.remove(i);
-                held[cardVal]--;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void render(SpriteBatch batch) {
-
+    public void render(SpriteBatch batch, float mouseX, float mouseY) {
         if(cards.size() > 0) {
             batch.begin();
             batch.enableBlending();
@@ -55,11 +30,6 @@ public class Hand {
             }
             batch.draw(cards.get(0).getTexture(), Settings.RES_WIDTH / 2 + 200, 30, Settings.CARD_WIDTH, Settings.CARD_HEIGHT);
             if(Gdx.input.isKeyPressed(Settings.KEY_ZOOM)) {
-                OrthographicCamera camera = new OrthographicCamera();
-                camera.setToOrtho(false, Settings.RES_WIDTH, Settings.RES_HEIGHT);
-                Vector3 mousePos3 = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0f));
-                float mouseX = mousePos3.x;
-                float mouseY = mousePos3.y;
                 if(mouseY > 30 && mouseY < 30 + Settings.CARD_HEIGHT) {
                     for (int i = cards.size()-1; i > 1; i--) {
                         if(mouseX > startX - 40*i && mouseX < startX - 40*i + Settings.CARD_WIDTH) {
@@ -78,4 +48,34 @@ public class Hand {
         }
     }
 
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
+
+    public int getCardNum(int index) {
+        return held[index];
+    }
+
+    /*
+     * Adds a card to the tracker
+     */
+    public void incrementCard(int index, int delta) {
+        held[index] += delta;
+    }
+
+    /*
+     * Removes a specified type of card from the hand
+     * TODO: needs to allow player to choose which card if multiple instances
+     */
+    public boolean removeCardType(int cardVal) {
+        for(int i = 0; i < cards.size(); i++) {
+            if(cards.get(i).getCardVal() == cardVal) {
+                cards.remove(i);
+                held[cardVal]--;
+                return true;
+            }
+        }
+        System.out.println("Card not found");
+        return false;
+    }
 }

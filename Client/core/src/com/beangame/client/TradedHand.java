@@ -25,6 +25,30 @@ public class TradedHand {
         buttons = new ArrayList<>();
     }
 
+    public void render(SpriteBatch batch, float mouseX, float mouseY) {
+        batch.begin();
+        batch.enableBlending();
+        float startX = Settings.RES_WIDTH / 2 - (cards.size() * 100/2);
+        for (int i = 0; i < cards.size(); i++) {
+            batch.draw(cards.get(i).getTexture(), startX + 100 * i, 240, Settings.CARD_WIDTH * 0.7f, Settings.CARD_HEIGHT * 0.7f);
+        }
+        batch.end();
+        stage.draw();
+        stage.act();
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public int getSize() {
+        return cards.size();
+    }
+
+    /*
+     * Adds a card to the traded hand
+     * If previously had no cards waiting to be planted, sends to the server that turn cannot be ended yet
+     */
     public void addCard(int cardVal) {
         if(cards.size() == 0) {
             game.sendMessage(4004, "");
@@ -36,7 +60,7 @@ public class TradedHand {
         button.addListener(new TradedHandListener(card, button) {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                if(player.plantFromTraded(c.getCardVal())) {
+                if(player.plantFromTradedHand(c.getCardVal())) {
                     b.addAction(Actions.removeActor());
                     buttons.remove(b);
                     cards.remove(c);
@@ -55,31 +79,13 @@ public class TradedHand {
         }
     }
 
+    /*
+     * Adjusts button positions to center cards
+     */
     public void adjustPositions() {
         float startX = Settings.RES_WIDTH/2 - cards.size() * 100/2;
         for(int i = 0; i < buttons.size(); i++) {
             buttons.get(i).setPosition(startX + 100*i + 30, 390);
         }
     }
-
-    public void render(SpriteBatch batch) {
-        batch.begin();
-        batch.enableBlending();
-        float startX = Settings.RES_WIDTH / 2 - (cards.size() * 100/2);
-        for (int i = 0; i < cards.size(); i++) {
-            batch.draw(cards.get(i).getTexture(), startX + 100 * i, 240, Settings.CARD_WIDTH * 0.7f, Settings.CARD_HEIGHT * 0.7f);
-        }
-        batch.end();
-        stage.draw();
-        stage.act();
-    }
-
-    public int getSize() {
-        return cards.size();
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
 }

@@ -23,22 +23,18 @@ public class InputThread extends Thread {
     }
 
     public void run() {
-        System.out.println("Connected");
+        System.out.println("Connected to " + Settings.IP);
         client.sendMessage(1000, "");
         while(!stop) {
-
             String text;
-
             try {
                 InputStream input = socket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
                 text = reader.readLine();
                 if(text != null) {
-                    System.out.println("Received " + text);
                     actionThread.queueAction(text);
                 }
-
             } catch (IOException e) {
                 System.out.println("Exception: " + e.getMessage());
                 e.printStackTrace();
