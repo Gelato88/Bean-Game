@@ -1,5 +1,6 @@
 package com.beangame.client;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -92,6 +93,24 @@ public class TradeOffer {
             batch.draw(Assets.beans[game.getPlayer().getFlipped()[1].getCardVal()], Settings.RES_WIDTH/2 + Settings.TRADE_OFFER_WIDTH/4 - 54, Settings.RES_HEIGHT/2 + Settings.TRADE_OFFER_HEIGHT/6 - 380, 48, 84);
         }
         batch.end();
+        if(Gdx.input.isKeyPressed(Settings.KEY_ZOOM)) {
+            for(int i = 0; i < Assets.beans.length; i++) {
+                if(mouseX > startX1+60*(i%3) && mouseX < startX1+60*(i%3)+Settings.CARD_WIDTH*0.4f && mouseY > Settings.RES_HEIGHT/2+Settings.TRADE_OFFER_HEIGHT/6-90*(i/3) && mouseY < Settings.RES_HEIGHT/2+Settings.TRADE_OFFER_HEIGHT/6-90*(i/3)+Settings.CARD_HEIGHT*0.4f) {
+                    game.getPlayer().setZoomedCard(i);
+                } else if(mouseX > startX2+60*(i%3) && mouseX < startX2+60*(i%3)+Settings.CARD_WIDTH*0.4f && mouseY > Settings.RES_HEIGHT/2+Settings.TRADE_OFFER_HEIGHT/6-90*(i/3) && mouseY < Settings.RES_HEIGHT/2+Settings.TRADE_OFFER_HEIGHT/6-90*(i/3)+Settings.CARD_HEIGHT*0.4f) {
+                    game.getPlayer().setZoomedCard(i);
+                }
+            }
+            if(mouseY > Settings.RES_HEIGHT/2+Settings.TRADE_OFFER_HEIGHT/6-380 && mouseY < Settings.RES_HEIGHT/2+Settings.TRADE_OFFER_HEIGHT/6-380+84) {
+                if (actives[0] == 1 && game.getPlayer().getFlipped()[0] != null && actives[1] == 1 && game.getPlayer().getFlipped()[1] != null) {
+                    if(mouseX > Settings.RES_WIDTH/2+Settings.TRADE_OFFER_WIDTH/4-54 && mouseX < Settings.RES_WIDTH/2+Settings.TRADE_OFFER_WIDTH/4-6) {
+                        game.getPlayer().setZoomedCard(game.getPlayer().getFlipped()[0].getCardVal());
+                    } else if(mouseX > Settings.RES_WIDTH/2+Settings.TRADE_OFFER_WIDTH/4+6 && mouseX < Settings.RES_WIDTH/2+Settings.TRADE_OFFER_WIDTH/4+54) {
+                        game.getPlayer().setZoomedCard(game.getPlayer().getFlipped()[1].getCardVal());
+                    }
+                }
+            }
+        }
         stage.draw();
         stage.act();
     }

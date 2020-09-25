@@ -66,7 +66,7 @@ public class Main {
         for(Player p : players) {
             p.sendMessage(str);
         }
-            System.out.println("Sent:     " + str);
+        System.out.println("Sent:     " + str);
     }
 
     /* Updates player count for all connected clients
@@ -174,8 +174,10 @@ public class Main {
                 }
                 discard.clear();
                 shuffleDeck();
+                messageThread.queueMessage(2002, ""+discard.size()+"-1");
             }
         }
+        messageThread.queueMessage(2001, ""+(deck.length-nextCardIndex));
     }
 
     /* Sets a player's name
@@ -259,7 +261,9 @@ public class Main {
      */
     public static void flipCards() {
         messageThread.queueMessage(3005, ""+deck[nextCardIndex++]);
+        messageThread.queueMessage(2001, ""+(deck.length-nextCardIndex));
         messageThread.queueMessage(3005, ""+deck[nextCardIndex++]);
+        messageThread.queueMessage(2001, ""+(deck.length-nextCardIndex));
     }
 
     /* Plants a card that was flipped
@@ -267,6 +271,13 @@ public class Main {
      */
     public static void plantFromFlipped(String info) {
         messageThread.queueMessage(3006, info);
+    }
+
+    /* Sends the number of cards in a player's hand
+     * Code 3010
+     */
+    public static void updateHandSize(String info) {
+        messageThread.queueMessage(3010, info);
     }
 
     /* Adds cards to the discard
@@ -278,6 +289,7 @@ public class Main {
         for(int i = 0; i < number; i++) {
             discard.add(card);
         }
+        messageThread.queueMessage(2002, ""+discard.size()+discard.get(discard.size()-1));
     }
 
     /* Checks if there are oustanding cards in players' traded hands

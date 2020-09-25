@@ -47,7 +47,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 		checked: check_unclicked,
 		checkedOver: check_hover
 	},
-	next: {
+	flip: {
 		up: flip_unclicked,
 		down: flip_clicked,
 		over: flip_hover

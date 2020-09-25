@@ -1,5 +1,6 @@
 package com.beangame.client;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -176,11 +177,31 @@ public class Trade {
             font.draw(batch, layout, 990, 350 - 25 * i + 20 - layout.height/2);
         }
         for(int i = 0; i < game.getPlayer().getFlipped().length; i++) {
-            if(!(game.getPlayer().getFlipped()[i] == null)) {
+            if(game.getPlayer().getFlipped()[i] != null) {
                 batch.draw(game.getPlayer().getFlipped()[i].getTexture(), Settings.RES_WIDTH/2 + Settings.TRADE_BOX_WIDTH/2 - 30 - 60*(game.getPlayer().getFlipped().length-i), 470, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
             }
         }
         batch.end();
+        if(Gdx.input.isKeyPressed(Settings.KEY_ZOOM)) {
+            if(mouseY > 470 && mouseY < 470+Settings.CARD_HEIGHT*0.4f) {
+                for(int i = 0; i < hand.size(); i++) {
+                    if(mouseX > Settings.RES_WIDTH/2-Settings.TRADE_BOX_WIDTH/2+30+60*i && mouseX < Settings.RES_WIDTH/2-Settings.TRADE_BOX_WIDTH/2+30+60*i+Settings.CARD_WIDTH*0.4f) {
+                        game.getPlayer().setZoomedCard(hand.get(i).getCardVal());
+                    }
+                }
+                for(int i = 0; i < game.getPlayer().getFlipped().length; i++) {
+                    if(game.getPlayer().getFlipped()[i] != null && mouseX > Settings.RES_WIDTH/2+Settings.TRADE_BOX_WIDTH/2-30-60*game.getPlayer().getFlipped().length-i && mouseX < Settings.RES_WIDTH/2+Settings.TRADE_BOX_WIDTH/2-30-60*game.getPlayer().getFlipped().length-i+Settings.CARD_WIDTH*0.4f) {
+                        game.getPlayer().setZoomedCard(game.getPlayer().getFlipped()[i].getCardVal());
+                    }
+                }
+            } else if(mouseY > 260 && mouseY < 260+Settings.CARD_HEIGHT*0.4f) {
+                for(int i = 0; i < Assets.beans.length; i++) {
+                    if(mouseX > Settings.RES_WIDTH/2-Settings.TRADE_BOX_WIDTH/2+30+60*i && mouseX < Settings.RES_WIDTH/2-Settings.TRADE_BOX_WIDTH/2+30+60*i+Settings.CARD_WIDTH*0.4f) {
+                        game.getPlayer().setZoomedCard(i);
+                    }
+                }
+            }
+        }
         stage.draw();
         stage.act();
     }

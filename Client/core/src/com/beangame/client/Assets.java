@@ -2,6 +2,8 @@ package com.beangame.client;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Assets {
@@ -17,20 +19,23 @@ public class Assets {
     public static Texture opponentMat;
     public static Texture playerSymbol;
     public static Texture coin;
+    public static Texture cardBack;
 
-    public static Texture blackEyedBean;
-    public static Texture blueBean;
-    public static Texture chiliBean;
-    public static Texture cocoaBean;
-    public static Texture coffeeBean;
-    public static Texture gardenBean;
-    public static Texture greenBean;
-    public static Texture redBean;
-    public static Texture soyBean;
-    public static Texture stinkBean;
-    public static Texture waxBean;
+    public static TextureAtlas beansAtlas;
 
-    public static Texture[] beans = new Texture[11];
+    public static TextureRegion blackEyedBean;
+    public static TextureRegion blueBean;
+    public static TextureRegion chiliBean;
+    public static TextureRegion cocoaBean;
+    public static TextureRegion coffeeBean;
+    public static TextureRegion gardenBean;
+    public static TextureRegion greenBean;
+    public static TextureRegion redBean;
+    public static TextureRegion soyBean;
+    public static TextureRegion stinkBean;
+    public static TextureRegion waxBean;
+
+    public static TextureRegion[] beans = new TextureRegion[11];
 
     public static Texture load(String filepath) {
         return new Texture(Gdx.files.internal(filepath + ".png"));
@@ -47,11 +52,9 @@ public class Assets {
         opponentMat = load("opponent_mat");
         playerSymbol = load("player_symbol");
         coin = load("coin");
+        cardBack = load("beans/textures/card_back");
 
         switch(Settings.TEXTURE_PACK) {
-            case 0:
-                loadOldPack();
-                break;
             case 1:
                 loadPack1();
                 break;
@@ -72,32 +75,22 @@ public class Assets {
         beans[10] = waxBean;
     }
 
-    public static void loadOldPack() {
-        blackEyedBean = load("old_beans/black-eyed_bean");
-        blueBean = load("old_beans/blue_bean");
-        chiliBean = load("old_beans/chili_bean");
-        cocoaBean = load("old_beans/cocoa_bean");
-        coffeeBean = load("old_beans/coffee_bean");
-        gardenBean = load("old_beans/garden_bean");
-        greenBean = load("old_beans/green_bean");
-        redBean = load("old_beans/red_bean");
-        soyBean = load("old_beans/soy_bean");
-        stinkBean = load("old_beans/stink_bean");
-        waxBean = load("old_beans/wax_bean");
-    }
 
     public static void loadPack1() {
-        blackEyedBean = load("beans/textures/black-eyed_bean");
-        blueBean = load("beans/textures/blue_bean");
-        chiliBean = load("beans/textures/chili_bean");
-        cocoaBean = load("beans/textures/cocoa_bean");
-        coffeeBean = load("beans/textures/coffee_bean");
-        gardenBean = load("beans/textures/garden_bean");
-        greenBean = load("beans/textures/green_bean");
-        redBean = load("beans/textures/red_bean");
-        soyBean = load("beans/textures/soy_bean");
-        stinkBean = load("beans/textures/stink_bean");
-        waxBean = load("beans/textures/wax_bean");
+
+        beansAtlas = new TextureAtlas(Gdx.files.internal("beans/beans.atlas"));
+
+        blackEyedBean = beansAtlas.findRegion("black-eyed_bean");
+        blueBean = beansAtlas.findRegion("blue_bean");
+        chiliBean = beansAtlas.findRegion("chili_bean");
+        cocoaBean = beansAtlas.findRegion("cocoa_bean");
+        coffeeBean = beansAtlas.findRegion("coffee_bean");
+        gardenBean = beansAtlas.findRegion("garden_bean");
+        greenBean = beansAtlas.findRegion("green_bean");
+        redBean = beansAtlas.findRegion("red_bean");
+        soyBean = beansAtlas.findRegion("soy_bean");
+        stinkBean = beansAtlas.findRegion("stink_bean");
+        waxBean = beansAtlas.findRegion("wax_bean");
     }
 
     public static void disposeAll() {
@@ -109,17 +102,8 @@ public class Assets {
         opponentMat.dispose();
         playerSymbol.dispose();
         coin.dispose();
-        blackEyedBean.dispose();
-        blueBean.dispose();
-        chiliBean.dispose();
-        cocoaBean.dispose();
-        coffeeBean.dispose();
-        gardenBean.dispose();
-        greenBean.dispose();
-        redBean.dispose();
-        soyBean.dispose();
-        stinkBean.dispose();
-        waxBean.dispose();
+        beansAtlas.dispose();
+
     }
 
 }

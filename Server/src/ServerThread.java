@@ -60,6 +60,9 @@ public class ServerThread extends Thread {
                     case 3008:
                         Main.checkEndTurn();
                         break;
+                    case 3010:
+                        Main.updateHandSize(text.substring(4));
+                        break;
                     case 4000:
                         Main.sendTrade(text.substring(4));
                         break;

@@ -70,6 +70,9 @@ public class BeanGame extends ApplicationAdapter {
 	public boolean turn;
 	public int currentTurn;
 	public int playerNumber;
+	public int deckCards;
+	public int discardCards;
+	public int discardTop;
 
 	@Override
 	public void create () {
@@ -95,6 +98,9 @@ public class BeanGame extends ApplicationAdapter {
 
 		gameStarted = false;
 		turn = false;
+		deckCards = 0;
+		discardCards = 0;
+		discardTop = -1;
 		opponentsGenerated = false;
 		trading = false;
 		showTradeOffer = false;
@@ -102,6 +108,11 @@ public class BeanGame extends ApplicationAdapter {
 		connected = 0;
 		currentTurn = 0;
 		playerNumber = 0;
+
+		setupStage.addActor(ipInput);
+		setupStage.addActor(nameInput);
+		setupStage.addActor(connect);
+		introStage.addActor(startGame);
 
 		inputMultiplexer.addProcessor(player.getStage());
 		inputMultiplexer.addProcessor(trade.getStage());
@@ -153,11 +164,6 @@ public class BeanGame extends ApplicationAdapter {
 				requestGameStart();
 			}
 		});
-
-		setupStage.addActor(ipInput);
-		setupStage.addActor(nameInput);
-		setupStage.addActor(connect);
-		introStage.addActor(startGame);
 	}
 
 	@Override
@@ -341,7 +347,7 @@ public class BeanGame extends ApplicationAdapter {
 					j = i-1;
 				}
 				String str = "Player " + i;
-				opponents.add(new Opponent(str, i, Settings.RES_WIDTH - (Settings.OPPONENT_BOX_WIDTH+10)*(j%2 + 1), Settings.RES_HEIGHT - (Settings.OPPONENT_BOX_HEIGHT+10)*((j-1)/2 + 1)));
+				opponents.add(new Opponent(this, str, i, Settings.RES_WIDTH - (Settings.OPPONENT_BOX_WIDTH+10)*(j%2 + 1), Settings.RES_HEIGHT - (Settings.OPPONENT_BOX_HEIGHT+10)*((j-1)/2 + 1)));
 			}
 		}
 		for(int i = 0; i < opponents.size(); i++) {
@@ -489,6 +495,30 @@ public class BeanGame extends ApplicationAdapter {
 			o.setBean2Number(0);
 		}
 		o.setCoins(coins);
+	}
+
+	/*
+	 * Updates the number of cards in an opponent's hand
+	 */
+	public void opponentCardUpdate(String info) {
+		int player = Integer.parseInt(info.substring(0,1));
+		int cards = Integer.parseInt(info.substring(1));
+		findOpponent(player).setCards(cards);
+	}
+
+	/*
+	 * Updates the number of cards in the deck
+	 */
+	public void deckSizeUpdate(String info) {
+		deckCards = Integer.parseInt(info);
+	}
+
+	/*
+	 * Updates the number of cards in the discard and the top discarded card
+	 */
+	public void discardUpdate(String info) {
+		discardCards = Integer.parseInt(info.substring(0,1));
+		discardTop = Integer.parseInt(info.substring(1));
 	}
 
 	@Override

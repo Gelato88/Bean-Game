@@ -1,5 +1,6 @@
 package com.beangame.client;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -38,6 +39,7 @@ public class Player {
 
     private int actions;
     private int coins;
+    private int zoomedCard;
 
     public Player(BeanGame game) {
         this.game = game;
@@ -50,9 +52,9 @@ public class Player {
 
         flipped = new Card[2];
 
-        hand = new Hand();
-        spot1 = new Spot(Settings.RES_WIDTH/2 - 100 - Settings.CARD_WIDTH/2, 1);
-        spot2 = new Spot(Settings.RES_WIDTH/2 + 100 - Settings.CARD_WIDTH/2, 2);
+        hand = new Hand(game, this);
+        spot1 = new Spot(this, Settings.RES_WIDTH/2 - 100 - Settings.CARD_WIDTH/2, 1);
+        spot2 = new Spot(this, Settings.RES_WIDTH/2 + 100 - Settings.CARD_WIDTH/2, 2);
         tradedHand = new TradedHand(this, game);
 
         actions = 0;
@@ -153,6 +155,7 @@ public class Player {
     }
 
     public void render(SpriteBatch batch, float mouseX, float mouseY) {
+        zoomedCard = -1;
         drawMat(batch);
         drawFlipped(batch, mouseX, mouseY);
         stage.draw();
@@ -161,18 +164,29 @@ public class Player {
         spot2.render(batch, mouseX, mouseY);
         tradedHand.render(batch, mouseX, mouseY);
         hand.render(batch, mouseX, mouseY);
+        drawZoomedCard(batch);
     }
 
     /*
-     * Draws static board features: mat and coins
+     * Draws static board features: mat, deck, discard, coins
      */
     public void drawMat(SpriteBatch batch) {
         batch.begin();
         batch.enableBlending();
-        batch.draw(Assets.coin, 50, Settings.RES_HEIGHT - 100, 50, 50);
+        batch.draw(Assets.coin, 20, Settings.RES_HEIGHT - 70, 50, 50);
         font.setColor(Color.WHITE);
         layout.setText(font, ""+coins);
-        font.draw(batch, layout, 110, Settings.RES_HEIGHT-75);
+        font.draw(batch, layout, 80, Settings.RES_HEIGHT-45-layout.height/2);
+        batch.draw(Assets.cardBack, 100, Settings.RES_HEIGHT-100-20, Settings.CARD_WIDTH/2, Settings.CARD_HEIGHT/2);
+        layout.setText(font, ""+game.deckCards);
+        font.draw(batch, layout, 100+Settings.CARD_WIDTH/4-layout.width/2, Settings.RES_HEIGHT-100-25);
+        if(game.discardTop == -1) {
+            batch.draw(Assets.cardBack, 170, Settings.RES_HEIGHT-100-20, Settings.CARD_WIDTH/2, Settings.CARD_HEIGHT/2);
+        } else {
+            batch.draw(Assets.beans[game.discardTop], 170, Settings.RES_HEIGHT-100-20, Settings.CARD_WIDTH/2, Settings.CARD_HEIGHT/2);
+        }
+        layout.setText(font, ""+game.discardCards);
+        font.draw(batch, layout, 170+Settings.CARD_WIDTH/4-layout.width/2, Settings.RES_HEIGHT-100-25);
         batch.draw(Assets.mat, Settings.RES_WIDTH/2 - 200, 440, 400, 200);
         batch.end();
 
@@ -190,6 +204,24 @@ public class Player {
             }
         }
         batch.end();
+        if(Gdx.input.isKeyPressed(Settings.KEY_ZOOM)) {
+            if(mouseX > 40 && mouseX < 40+Settings.CARD_WIDTH*0.8f) {
+                for(int i = 0; i < flipped.length; i++) {
+                    if(flipped[i] != null && mouseY > 240+180*i && mouseY < 240+180*i+Settings.CARD_HEIGHT*0.8f) {
+                        setZoomedCard(flipped[i].getCardVal());
+                    }
+                }
+            }
+        }
+    }
+
+    public void drawZoomedCard(SpriteBatch batch) {
+        if(zoomedCard != -1) {
+            batch.begin();
+            batch.enableBlending();
+            batch.draw(Assets.beans[zoomedCard], Settings.RES_WIDTH/2 - Settings.CARD_WIDTH*2/2, Settings.RES_HEIGHT/2-Settings.CARD_HEIGHT/2, Settings.CARD_WIDTH*2, Settings.CARD_HEIGHT*2);
+            batch.end();
+        }
     }
 
     public int getCoins() {
@@ -210,6 +242,10 @@ public class Player {
 
     public Hand getHand() {
         return hand;
+    }
+
+    public void setZoomedCard(int cardVal) {
+        zoomedCard = cardVal;
     }
 
     /*
@@ -264,6 +300,7 @@ public class Player {
     public void drawCard(int cardVal) {
         hand.getCards().add(new Card(cardVal));
         hand.incrementCard(cardVal, 1);
+        game.sendMessage(3010, ""+game.playerNumber+hand.getCards().size());
     }
 
     /*
@@ -335,6 +372,7 @@ public class Player {
     public void plantFromHand(Spot spot) {
         plant(spot, hand.getCards().get(0).getCardVal());
         hand.getCards().remove(0);
+        game.sendMessage(3010, ""+game.playerNumber+hand.getCards().size());
         actions--;
         if(actions < 2) {
             showButton(flip);

@@ -15,6 +15,8 @@ public class Opponent {
     private BitmapFont font;
     private GlyphLayout layout;
 
+    private BeanGame game;
+
     private String name;
     private float x;
     private float y;
@@ -24,8 +26,10 @@ public class Opponent {
     private int bean1Number;
     private int bean2Number;
     private int coins;
+    private int cards;
 
-    public Opponent(String name, int playerNum, float x, float y) {
+    public Opponent(BeanGame game, String name, int playerNum, float x, float y) {
+        this.game = game;
         this.name = name;
         this.playerNum = playerNum;
         this.x = x;
@@ -36,6 +40,7 @@ public class Opponent {
         font.setColor(Color.WHITE);
 
         coins = 0;
+        cards = 0;
         bean1 = -1;
         bean2 = -1;
         bean1Number = 0;
@@ -56,6 +61,10 @@ public class Opponent {
 
     public void setCoins(int num) {
         coins = num;
+    }
+
+    public void setCards(int num) {
+        cards = num;
     }
 
     public void setName(String name) {
@@ -87,6 +96,9 @@ public class Opponent {
         batch.draw(Assets.coin, x + 10, y + Settings.OPPONENT_BOX_HEIGHT-25, 15, 15);
         layout.setText(font, "" + coins);
         font.draw(batch, layout, x + 15, y + Settings.OPPONENT_BOX_HEIGHT-17-layout.height/2);
+        batch.draw(Assets.cardBack, x+10, y+Settings.OPPONENT_BOX_HEIGHT-110, Settings.CARD_WIDTH/4, Settings.CARD_HEIGHT/4);
+        layout.setText(font, "" + cards);
+        font.draw(batch, layout, x+10+Settings.CARD_WIDTH/8-layout.width/2, y+Settings.OPPONENT_BOX_HEIGHT-120);
         if(bean1 != -1) {
             batch.draw(Assets.beans[bean1], x + 50, y + 30, Settings.CARD_WIDTH * 0.4f, Settings.CARD_HEIGHT * 0.4f);
             layout.setText(font, "" + bean1Number);
@@ -97,17 +109,17 @@ public class Opponent {
             layout.setText(font, "" + bean2Number);
             font.draw(batch, layout, x + 60 + Settings.CARD_WIDTH*0.4f*3/2 - layout.width/2, y + 25);
         }
+        batch.end();
         if(Gdx.input.isKeyPressed(Settings.KEY_ZOOM)) {
             if(mouseY > y+30 && mouseY < y+30+Settings.CARD_HEIGHT*0.4f) {
                 if(bean1 != -1 && mouseX > x+50 && mouseX < x+50+Settings.CARD_WIDTH*0.4f) {
-                    batch.draw(Assets.beans[bean1], Settings.RES_WIDTH/2 - Settings.CARD_WIDTH*2/2, Settings.RES_HEIGHT/2 - Settings.CARD_HEIGHT/2, Settings.CARD_WIDTH*2, Settings.CARD_HEIGHT*2);
+                    game.getPlayer().setZoomedCard(bean1);
                 } else if(bean2 != -1 && mouseX > x+60+Settings.CARD_WIDTH*0.4f && mouseX < x+60+Settings.CARD_WIDTH*0.4f*2) {
-                    batch.draw(Assets.beans[bean2], Settings.RES_WIDTH/2 - Settings.CARD_WIDTH*2/2, Settings.RES_HEIGHT/2 - Settings.CARD_HEIGHT/2, Settings.CARD_WIDTH*2, Settings.CARD_HEIGHT*2);
+                    game.getPlayer().setZoomedCard(bean2);
                 }
             }
 
         }
-        batch.end();
     }
 
 }

@@ -14,7 +14,7 @@ public class MessageThread extends Thread{
     public void run() {
         while(running) {
             if(messages.size() > 0) {
-                wait(400);
+                wait(300);
                 Main.sendToAll(messages.get(0));
                 messages.remove(0);
             }

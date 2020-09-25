@@ -1,263 +1,256 @@
 buttons.png
-size: 1980, 1840
+size: 1024, 1144
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 blank_clicked
   rotate: false
-  xy: 1468, 0
+  xy: 888, 120
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 blank_hover
   rotate: false
-  xy: 1852, 0
+  xy: 896, 248
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 blank_unclicked
   rotate: false
-  xy: 0, 128
+  xy: 768, 248
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-button
-  rotate: false
-  xy: 0, 0
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
 check_clicked
   rotate: false
-  xy: 1724, 0
+  xy: 0, 248
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 check_hover
   rotate: false
-  xy: 128, 128
+  xy: 384, 248
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 check_unclicked
   rotate: false
-  xy: 512, 128
+  xy: 512, 248
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 close_clicked
   rotate: false
-  xy: 384, 128
+  xy: 256, 248
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 close_hover
   rotate: false
-  xy: 256, 128
+  xy: 640, 248
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 close_unclicked
   rotate: false
-  xy: 1596, 0
+  xy: 128, 248
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 connect_clicked
   rotate: false
-  xy: 500, 0
+  xy: 400, 376
   size: 200, 100
   orig: 200, 100
   offset: 0, 0
   index: -1
 connect_hover
   rotate: false
-  xy: 300, 0
+  xy: 200, 376
   size: 200, 100
   orig: 200, 100
   offset: 0, 0
   index: -1
 connect_unclicked
   rotate: false
-  xy: 100, 0
+  xy: 0, 376
   size: 200, 100
   orig: 200, 100
   offset: 0, 0
   index: -1
 end_turn_clicked
   rotate: false
-  xy: 1536, 384
+  xy: 512, 888
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 end_turn_hover
   rotate: false
-  xy: 1280, 384
+  xy: 256, 888
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 end_turn_unclicked
   rotate: false
-  xy: 256, 384
+  xy: 768, 888
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 enter_clicked
   rotate: false
-  xy: 0, 384
+  xy: 768, 632
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 enter_hover
   rotate: false
-  xy: 1408, 128
+  xy: 256, 632
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 enter_unclicked
   rotate: false
-  xy: 1152, 128
+  xy: 512, 632
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 flip_clicked
   rotate: false
-  xy: 512, 384
-  size: 256, 256
-  orig: 256, 256
+  xy: 715, 0
+  size: 120, 120
+  orig: 120, 120
   offset: 0, 0
   index: -1
 flip_hover
   rotate: false
-  xy: 768, 384
-  size: 256, 256
-  orig: 256, 256
+  xy: 595, 0
+  size: 120, 120
+  orig: 120, 120
   offset: 0, 0
   index: -1
 flip_unclicked
   rotate: false
-  xy: 1024, 384
-  size: 256, 256
-  orig: 256, 256
+  xy: 355, 0
+  size: 120, 120
+  orig: 120, 120
   offset: 0, 0
   index: -1
 harvest_clicked
   rotate: false
-  xy: 600, 1240
-  size: 600, 600
-  orig: 600, 600
+  xy: 475, 0
+  size: 120, 120
+  orig: 120, 120
   offset: 0, 0
   index: -1
 harvest_hover
   rotate: false
-  xy: 600, 640
-  size: 600, 600
-  orig: 600, 600
+  xy: 235, 0
+  size: 120, 120
+  orig: 120, 120
   offset: 0, 0
   index: -1
 harvest_unclicked
   rotate: false
-  xy: 0, 1240
-  size: 600, 600
-  orig: 600, 600
+  xy: 0, 0
+  size: 115, 115
+  orig: 115, 115
   offset: 0, 0
   index: -1
 minus_clicked
   rotate: false
-  xy: 956, 0
+  xy: 504, 120
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 minus_hover
   rotate: false
-  xy: 1084, 0
+  xy: 632, 120
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 minus_unclicked
   rotate: false
-  xy: 1340, 0
+  xy: 248, 120
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 plant_clicked
   rotate: false
-  xy: 1200, 1240
-  size: 600, 600
-  orig: 600, 600
+  xy: 115, 0
+  size: 120, 120
+  orig: 120, 120
   offset: 0, 0
   index: -1
 plant_hover
   rotate: false
-  xy: 0, 640
-  size: 600, 600
-  orig: 600, 600
+  xy: 835, 0
+  size: 120, 120
+  orig: 120, 120
   offset: 0, 0
   index: -1
 plant_unclicked
   rotate: false
-  xy: 1200, 640
-  size: 600, 600
-  orig: 600, 600
+  xy: 0, 120
+  size: 120, 120
+  orig: 120, 120
   offset: 0, 0
   index: -1
 plus_clicked
   rotate: false
-  xy: 1212, 0
+  xy: 760, 120
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 plus_hover
   rotate: false
-  xy: 828, 0
+  xy: 376, 120
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 plus_unclicked
   rotate: false
-  xy: 700, 0
+  xy: 120, 120
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 trade_clicked
   rotate: false
-  xy: 640, 128
+  xy: 600, 376
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 trade_hover
   rotate: false
-  xy: 896, 128
+  xy: 0, 632
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 trade_unclicked
   rotate: false
-  xy: 1664, 128
+  xy: 0, 888
   size: 256, 256
   orig: 256, 256
   offset: 0, 0

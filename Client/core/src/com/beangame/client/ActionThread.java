@@ -45,6 +45,12 @@ public class ActionThread extends Thread {
 
                             }
                             break;
+                        case 2001:
+                            client.deckSizeUpdate(text.substring(4));
+                            break;
+                        case 2002:
+                            client.discardUpdate(text.substring(4));
+                            break;
                         case 3000:
                             if (client.playerNumber == Integer.parseInt(text.substring(4))) {
                                 client.startTurn();
@@ -72,6 +78,11 @@ public class ActionThread extends Thread {
                         case 3009:
                             if (client.currentTurn == client.playerNumber) {
                                 client.getPlayer().endTurn();
+                            }
+                            break;
+                        case 3010:
+                            if(client.playerNumber != Integer.parseInt(text.substring(4, 5))) {
+                                client.opponentCardUpdate(text.substring(4));
                             }
                             break;
                         case 4000:

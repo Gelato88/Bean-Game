@@ -6,6 +6,8 @@
 1005<player num name>: sets a player name for the client
 
 2000<player card>: deals a card to a player
+2001<cards>: cards left in the deck
+2002<cards cardVal>: cards in discard and top discard
 
 3000<player>: starts a player's turn
 3001<>: end's current turn
@@ -17,6 +19,7 @@
 3007<card number>: discards cards
 3008<>: asks to end turn
 3009<>: ends turn
+3010<player cards>: number of cards in a player's hand
 
 4000<player num_players y/n offered requested active1 active2>: sends a trade offer
 4001<player responder>: accepts a trade offer

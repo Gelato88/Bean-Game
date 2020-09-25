@@ -1,5 +1,6 @@
 package com.beangame.client;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /* A spot represents a space on the player's mat where beans may be planted.
@@ -7,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * All information is updated client-side and sent to the server.
  */
 public class Spot {
+
+    private Player player;
 
     private float x;
     private int cardVal;
@@ -17,7 +20,8 @@ public class Spot {
     private int coins3;
     private int coins4;
 
-    public Spot(float x, int spotNum) {
+    public Spot(Player player, float x, int spotNum) {
+        this.player = player;
         this.x = x;
         this.spotNum = spotNum;
         cardVal = -1;
@@ -31,6 +35,11 @@ public class Spot {
                 batch.draw(Assets.beans[cardVal], x, 390 - 30 * i, Settings.CARD_WIDTH, Settings.CARD_HEIGHT);
             }
             batch.end();
+            if(Gdx.input.isKeyPressed(Settings.KEY_ZOOM)) {
+                if(mouseX > x && mouseX < x + Settings.CARD_WIDTH && mouseY > 390-30*(cards-1) && mouseY < 390+Settings.CARD_HEIGHT) {
+                    player.setZoomedCard(cardVal);
+                }
+            }
         }
     }
 

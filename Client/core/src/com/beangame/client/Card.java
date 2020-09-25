@@ -1,6 +1,7 @@
 package com.beangame.client;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /* Represents a card
  * A card only has a texture to indicate its type and is never updated.
@@ -8,7 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class Card {
 
     private int cardVal;
-    private Texture texture;
+    private TextureRegion texture;
 
     public Card(int cardVal) {
         this.cardVal = cardVal;
@@ -19,7 +20,7 @@ public class Card {
         return cardVal;
     }
 
-    public Texture getTexture() {
+    public TextureRegion getTexture() {
         return texture;
     }
 
